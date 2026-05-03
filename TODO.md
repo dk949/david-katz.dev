@@ -1,6 +1,9 @@
 # TODO
 
-
+* [ ] Hosting
+    * [ ] Connect domain
+    * [ ] Add github actions to automatically build and publish website
+    * [ ] Add readme badge
 * [ ] OSS contribution list should also be generated
 * [ ] Add "ignore" lists for repos which should not be considered when
   generating OSS contribution list and used languages
