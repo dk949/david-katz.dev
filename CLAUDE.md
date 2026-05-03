@@ -38,12 +38,13 @@ This file is the single source of truth for project intent and conventions.
 index.html / research.html / activity.html  ← entry points (structure lives here)
 src/
   styles.css              ← global Tailwind + theme tokens
-  pages/{home,research,activity}.ts   ← per-page behavior, mounted by entry HTML
+  pages/{home,research,activity,projects}.ts   ← per-page behavior, mounted by entry HTML
   lib/sidebar.ts          ← shared drawer/nav, accessibility wiring
   lib/github.ts           ← typed loader for generated/github.json
-  generated/github.json   ← build-time output, committed for offline builds
+  lib/escape.ts           ← HTML escaping helper for innerHTML injection
+  generated/github.json   ← build-time output (gitignored)
   partials/{nav,footer}.html  ← HTML fragments included via `<!-- @include name -->`
-data/oss-contributions.yml  ← list of `owner/repo` slugs to surface on /activity
+data/site.yml             ← single source of truth for build-time data: ignore lists, contribution pins, projects, publications
 scripts/fetch-github.ts   ← prebuild: hits GitHub API, writes generated/github.json
 public/                   ← static assets served at site root (favicon, avatar)
 ```
@@ -69,12 +70,15 @@ public/                   ← static assets served at site root (favicon, avatar
 
 `prebuild` (`scripts/fetch-github.ts`) fetches:
 
-1. **OSS contributions** — repo metadata for each slug in `data/oss-contributions.yml`
-2. **Language breakdown** — top 8 languages across `dk949`'s public repos by repo size, plus an "Other" bucket
+1. **OSS contributions** — auto-discovered via GitHub search (`is:pr author:dk949 is:merged`), filtered by `ignore.repos`/`ignore.owners` in `data/site.yml`, augmented with `contributions.pinned` slugs, sorted by merged-PR count desc (then stars), capped at `contributions.limit`.
+2. **Language breakdown** — top `languages.limit` (default 8) languages across `dk949`'s public repos by repo size, minus `ignore.languages`, plus an "Other" bucket.
+3. **Projects + publications** — passed through verbatim from `data/site.yml`.
 
-Output: `src/generated/github.json` (committed, gitignored only via `generated/` rule — verify before adding new generated files). On API failure, prebuild falls back to the cached JSON; build only fails if no cache exists.
+Output: `src/generated/github.json` (gitignored — regenerated each prebuild). On API failure, prebuild falls back to the cached JSON; build only fails if no cache exists.
 
-To add a tracked OSS repo: append the `owner/repo` slug to `data/oss-contributions.yml` and re-run `npm run prebuild`.
+`data/site.yml` is the single config surface — ignore lists, pinned slugs, limits, projects, and publications all live there. Re-run `npm run prebuild` after editing.
+
+`GITHUB_TOKEN` is read from `.env` locally (via `tsx --env-file-if-exists=.env`); needs no scopes (auth alone bumps the rate limit 60→5000/hr).
 
 ## Hosting
 

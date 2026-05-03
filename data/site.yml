@@ -1,0 +1,53 @@
+# Single source of truth for build-time site data.
+# Consumed by scripts/fetch-github.ts and baked into src/generated/github.json.
+
+ignore:
+    # owner/repo strings excluded from the auto-generated contributions list
+    repos:
+        - "FlicAnderson/PR_test"
+
+    # users/orgs whose repos should never appear as contributions (e.g. dk949 itself)
+    owners:
+        - dk949
+        - JumpCutter
+        - Team-13-RLC
+        - tacticalhippopotamus
+    # language names excluded from the activity language breakdown
+    languages:
+        - TypeScript
+
+contributions:
+    # Max number of contribution cards to render on the activity page.
+    # Sorted by merged-PR count (desc), then stars (desc).
+    # Set to null/omit for no limit.
+    limit: 12
+    # Slugs always included in the contributions list, even if not surfaced by
+    # the GitHub PR-author search (e.g. older or non-PR contributions).
+    pinned:
+        - xdslproject/xdsl
+
+languages:
+    # Max number of language slices in the breakdown bar (excluding "Other").
+    # Anything beyond this is folded into the "Other" bucket. Default 8.
+    limit: 8
+
+projects:
+    # Other web-based things, typically hosted on subdomains.
+    # Schema: name, url, description, tags (optional)
+    # Example:
+    # - name: Some Tool
+    #   url: https://tool.david-katz.dev
+    #   description: One-line description.
+    #   tags: [rust, cli]
+
+publications:
+    # Schema: title, authors (list), venue, year, type, doi (optional), url (optional)
+    # type: paper | preprint | talk | poster | thesis
+    # Example:
+    # - title: Mapping OpenMP onto distributed-memory accelerators via MLIR
+    #   authors: [D. Katz, ...]
+    #   venue: SC25
+    #   year: 2025
+    #   type: paper
+    #   doi: 10.xxxx/yyyy
+    #   url: https://...
