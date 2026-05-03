@@ -9,7 +9,6 @@ This file is the single source of truth for project intent and conventions.
 - **Audience.** Currently doubles as PhD researcher page; will be updated for industry job hunt post-graduation. Tone: techy / low-level but readable and professional.
 - **Landing page.** Basic about + contact info; left side reserved for a sidebar / nav that will grow as future projects are added.
 - **Activity page.** GitHub visualiser (OSS contributions, language breakdown, etc.). Lives off the landing page on purpose — it's a "nice to have", not the headline.
-- **Profile picture.** SVG placeholder in `public/avatar-placeholder.svg`. Optional — keep it only while it fits the design.
 - **Contact.** Email `dk949.david@gmail.com`, GitHub `@dk949`, LinkedIn `https://www.linkedin.com/in/dk949/`. The email is also hard-coded in `src/pages/home.ts` for the copy-to-clipboard button — update both places if it changes.
 - **Frameworks.** Intentionally avoided. Justify any added dependency by the weight it adds to the bundle.
 
