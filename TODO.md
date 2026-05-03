@@ -1,7 +1,7 @@
 # TODO
 
-* [ ] Hosting
-    * [ ] Connect domain (Namecheap DNS + GH Pages custom domain — manual)
+* [x] Hosting
+    * [x] Connect domain (Namecheap DNS + GH Pages custom domain — manual)
     * [x] Add github actions to automatically build and publish website
     * [x] Add readme badge
 * [ ] OSS contribution list should also be generated
