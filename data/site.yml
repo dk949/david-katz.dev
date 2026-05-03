@@ -32,13 +32,14 @@ languages:
     limit: 8
 
 projects:
-    # Other web-based things, typically hosted on subdomains.
-    # Schema: name, url, description, tags (optional)
-    # Example:
-    # - name: Some Tool
-    #   url: https://tool.david-katz.dev
-    #   description: One-line description.
-    #   tags: [rust, cli]
+    - name: Outlook URL Demangler
+      url: https://url-demangler.david-katz.dev
+      description: A tool to extract real URL after it gets mangled by Outlook
+      tags: [tool]
+    - name: IHPCSS Poster
+      url: https://ihpcss-poster.david-katz.dev
+      description: International HPC Summer School poster (tab to navigate)
+      tags: [poster]
 
 publications:
     # Schema: title, authors (list), venue, year, type, doi (optional), url (optional)
