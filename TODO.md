@@ -15,8 +15,8 @@
   These will not be hosted in the same repo (likely linked using subdomains)
 * [>] Add links/references to everything that needs them.
     * [x] Add accent color + underline for links
-    * [x] Sweep index/research for unlinked entities (EPCC, Cerebras, LLVM,
-      MLIR, OpenMP, Fortran, xDSL)
+    * [x] Sweep index/research for unlinked entities (Cerebras, LLVM, MLIR,
+      OpenMP, Fortran, xDSL)
     * [ ] Continue to audit as content grows
 * [x] Add abbreviation expansions on hover (instead of putting them in
   parentheses).
