@@ -43,11 +43,24 @@ projects:
 publications:
     # Schema: title, authors (list), venue, year, type, doi (optional), url (optional)
     # type: paper | preprint | talk | poster | thesis
-    # Example:
-    # - title: Mapping OpenMP onto distributed-memory accelerators via MLIR
-    #   authors: [D. Katz, ...]
-    #   venue: SC25
-    #   year: 2025
-    #   type: paper
-    #   doi: 10.xxxx/yyyy
-    #   url: https://...
+    - title: An MLIR Lowering Pipeline for Stencils at Wafer-Scale
+      authors: [Nicolai Stawinoga, David Katz, Anton Lydike, Justs Zarins, Nick Brown, George Bisbas, Tobias Grosser]
+      venue: ASPLOS
+      year: 2026
+      type: paper
+      doi: 10.1145/3779212.3790124
+      url: https://dl.acm.org/doi/10.1145/3779212.3790124
+    - title: An MLIR pipeline for offloading Fortran to FPGAs via OpenMP
+      authors: [Gabriel Rodriguez-Canal, David Katz, Nick Brown]
+      venue: SC25
+      year: 2025
+      type: paper
+      doi: 10.1145/3731599.376748
+      url: https://dl.acm.org/doi/10.1145/3731599.3767485
+    - title: Implementing OpenMP for Zig to Enable Its Use in HPC Context
+      authors: [David Katz, Nick Brown, Joseph Lee]
+      venue: ICPP
+      year: 2024
+      type: paper
+      doi: 10.1145/3677333.3678273
+      url: https://dl.acm.org/doi/10.1145/3677333.3678273
