@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="Research — David Katz. Compiler design, LLVM/MLIR, and High Performance Computing." />
+    content="Research - David Katz. Compiler design, LLVM/MLIR, and High Performance Computing." />
   <title>Research · David Katz</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/src/styles.css" />
@@ -21,16 +21,18 @@
     <section class="page-section" aria-labelledby="focus-heading">
       <h2 id="focus-heading">Focus</h2>
       <p>
-        My research sits at the intersection of compiler construction, high-performance
-        computing, and domain-specific languages. I work primarily with LLVM and its
-        Multi-Level Intermediate Representation (MLIR) framework, developing compiler
-        passes and dialect extensions for heterogeneous compute targets.
+        My research primarily focuses on utilising the Cerebras WSE
+        architecture for HPC tasks, like fluid dynamics or weather simulations.
+        I am using the <a href="https://github.com/xdslproject/xdsl">xDSL</a>
+        framework (MLIR in python) to build compiler infrastructure to target
+        this system. Presently my research is focused on transforming high
+        level Fortran code, annotated with OpenMP directives, into highly
+        optimised Cerebras Software language (CSL) programs.
       </p>
       <p>
-        The core challenge I work on is bridging the gap between high-level algorithmic
-        descriptions and the deeply heterogeneous hardware landscape — CPUs, GPUs,
-        FPGAs, and emerging accelerators — by encoding domain knowledge into the
-        compiler rather than relying solely on target-independent optimisations.
+        The core challenge in my work is mapping the OpenMP shared memory
+        programming model onto the WSE's highly parallel distributed memory
+        hardware.
       </p>
     </section>
 
@@ -38,11 +40,8 @@
       <h2 id="interests-heading">Interests</h2>
       <ul>
         <li>MLIR dialect design and progressive lowering strategies</li>
-        <li>Polyhedral optimisation and affine loop transformations</li>
-        <li>Auto-vectorisation and SIMD code generation</li>
-        <li>Compiler support for parallel and distributed memory models</li>
-        <li>Performance portability across heterogeneous architectures</li>
         <li>Systems programming languages and language runtimes</li>
+        <li>Novel architectures</li>
       </ul>
     </section>
 

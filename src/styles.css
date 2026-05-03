@@ -2,10 +2,11 @@
 @import "@fontsource-variable/jetbrains-mono/index.css";
 
 /* ===================================================================
-   Theme — Tokyo Night
-   Tokens exposed to Tailwind utilities via @theme. Dark mode swaps
-   the underlying CSS vars via prefers-color-scheme — utilities like
-   `bg-bg`, `text-fg`, `border-border` resolve to whichever is active.
+   Theme: Tokyo Night
+   Tokens exposed to Tailwind utilities via @theme.
+   Dark mode swaps the underlying CSS vars via prefers-color-scheme:
+       Utilities like `bg-bg`, `text-fg`, `border-border` resolve to
+       whichever is active.
    =================================================================== */
 
 @theme {
