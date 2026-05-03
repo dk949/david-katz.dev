@@ -38,6 +38,7 @@ export default defineConfig({
                 home: resolve(__dirname, "index.html"),
                 research: resolve(__dirname, "research.html"),
                 activity: resolve(__dirname, "activity.html"),
+                projects: resolve(__dirname, "projects.html"),
             },
         },
     },

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Projects - David Katz. Other web-based things." />
+  <title>Projects · David Katz</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+
+<body>
+  <!-- @include nav -->
+
+  <!-- Page content -->
+  <main>
+    <h1 class="page-title">Projects</h1>
+
+    <section class="page-section" aria-labelledby="projects-heading">
+      <h2 id="projects-heading" class="sr-only">Projects</h2>
+      <p class="page-section-intro">
+        Web-based side projects and tools. Most live on subdomains of this site.
+      </p>
+      <div id="projects-grid" class="projects-grid" aria-live="polite" aria-busy="true">
+        <p class="empty-state">Loading...</p>
+      </div>
+    </section>
+
+    <!-- @include footer -->
+  </main>
+
+  <script type="module" src="/src/pages/projects.ts"></script>
+</body>
+
+</html>
