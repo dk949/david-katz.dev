@@ -21,3 +21,14 @@
 * [x] Add abbreviation expansions on hover (instead of putting them in
   parentheses).
 * [x] Automatically populate publications from the yaml file
+* [x] Make pages more visually interesting
+    * [x] Home
+        * [x] Add appropriate colours for contact links
+            * [x] GH: #6e5494
+            * [x] LinkedIn: #0a66c2
+            * [x] ORCID: #a6ce39
+    * [x] Research
+        * [x] Interests: looks like a bunch of paragraphs, should be more of
+          a list
+        * [x] Not much distinction between entries, consider making each one
+          a card
