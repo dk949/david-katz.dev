@@ -24,6 +24,9 @@ jobs:
                   node-version: 22
                   cache: npm
             - run: npm ci
+            - run: npm run prebuild
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - run: npm run typecheck
             - run: npm run build
               env:
