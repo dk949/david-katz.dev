@@ -290,6 +290,29 @@
         border-color: color-mix(in srgb, var(--color-accent-grn) 40%, transparent);
     }
 
+    /* Per-platform brand colours for contact links. Icon takes brand colour
+       always; hover brings text/border/bg into the same brand. */
+    .contact-link.gh       { --brand: #6e5494; }
+    .contact-link.linkedin { --brand: #0a66c2; }
+    .contact-link.orcid    { --brand: #a6ce39; }
+
+    .contact-link.gh svg,
+    .contact-link.linkedin svg,
+    .contact-link.orcid svg {
+        color: var(--brand);
+    }
+
+    .contact-link.gh:hover,
+    .contact-link.gh:focus-visible,
+    .contact-link.linkedin:hover,
+    .contact-link.linkedin:focus-visible,
+    .contact-link.orcid:hover,
+    .contact-link.orcid:focus-visible {
+        color: var(--brand);
+        border-color: color-mix(in srgb, var(--brand) 40%, transparent);
+        background-color: color-mix(in srgb, var(--brand) 8%, transparent);
+    }
+
     /* --- Footer --- */
     footer {
         @apply mt-16 pt-5 border-t border-border text-muted;
