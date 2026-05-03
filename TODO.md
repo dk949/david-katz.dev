@@ -4,6 +4,7 @@
     * [x] Connect domain (Namecheap DNS + GH Pages custom domain — manual)
     * [x] Add github actions to automatically build and publish website
     * [x] Add readme badge
+* [x] Deduplicate nav (topbar/drawer/rail) into `src/partials/nav.html`
 * [ ] OSS contribution list should also be generated
 * [ ] Add "ignore" lists for repos which should not be considered when
   generating OSS contribution list and used languages
