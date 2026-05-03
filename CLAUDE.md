@@ -57,6 +57,12 @@ public/                   ← static assets served at site root (favicon, avatar
 - **HTML escaping.** Any user/API string injected into `innerHTML` must go through `escHtml` (see `pages/activity.ts`). Prefer `textContent` when no markup is needed.
 - **Mobile + desktop.** Both must work. Drawer collapses on mobile, sidebar on desktop.
 
+## Git conventions
+
+- **Commits:** Use [Conventional Commits](https://www.conventionalcommits.org/) format. Subject ≤50 chars. Body only when "why" isn't obvious.
+- **Commit only when asked:** Do not auto-commit or proactively stage changes. Wait for explicit instruction.
+- **Never push:** User retains full control over when and what gets pushed to remote.
+
 ## Build pipeline
 
 `prebuild` (`scripts/fetch-github.ts`) fetches:
