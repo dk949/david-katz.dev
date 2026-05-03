@@ -1,6 +1,7 @@
 import { initSidebar } from "../lib/sidebar";
 import { loadGithubData } from "../lib/github";
 import type { Contribution, Language } from "../lib/github";
+import { escHtml } from "../lib/escape";
 
 initSidebar("activity");
 
@@ -25,12 +26,15 @@ function renderContributions(contributions: Contribution[]) {
   for (const c of contributions) {
     const card = document.createElement("div");
     card.className = "contrib-card";
+    const prLabel = c.prCount === 1 ? "1 PR" : `${c.prCount} PRs`;
     card.innerHTML = `
-      <a href="${c.url}" target="_blank" rel="noopener noreferrer" class="contrib-card-link">
+      <a href="${escHtml(c.url)}" target="_blank" rel="noopener noreferrer" class="contrib-card-link"
+         aria-label="${escHtml(c.owner)}/${escHtml(c.name)}: ${prLabel} merged by dk949">
         <span class="contrib-card-title">${escHtml(c.name)}</span>
         <span class="contrib-card-owner">${escHtml(c.owner)}/${escHtml(c.name)}</span>
         <span class="contrib-card-desc">${escHtml(c.description || "No description.")}</span>
         <span class="contrib-card-meta">
+          <span class="pr-pill" title="${prLabel} merged">${prLabel}</span>
           ${c.language ? `<span class="lang-pill">${escHtml(c.language)}</span>` : ""}
           <span class="stars">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
@@ -79,14 +83,6 @@ function renderMeta(generatedAt: string) {
   const date = new Date(generatedAt);
   const formatted = date.toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
   el.textContent = `Data last updated: ${formatted}`;
-}
-
-function escHtml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 }
 
 render().catch(console.error);
