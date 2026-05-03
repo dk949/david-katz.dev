@@ -103,7 +103,8 @@
     /* Active nav highlight (rail + drawer) */
     body[data-route="home"]     [data-nav="home"],
     body[data-route="research"] [data-nav="research"],
-    body[data-route="activity"] [data-nav="activity"] {
+    body[data-route="activity"] [data-nav="activity"],
+    body[data-route="projects"] [data-nav="projects"] {
         @apply text-accent-blue;
     }
 
@@ -389,6 +390,14 @@
         border-color: color-mix(in srgb, var(--color-accent-mag) 25%, transparent);
     }
 
+    .pr-pill {
+        @apply text-accent-grn border rounded-full;
+        padding: 0.1rem 0.5rem;
+        font-size: 0.675rem;
+        background-color: color-mix(in srgb, var(--color-accent-grn) 12%, transparent);
+        border-color: color-mix(in srgb, var(--color-accent-grn) 25%, transparent);
+    }
+
     .stars {
         @apply flex items-center ml-auto;
         gap: 0.2rem;
@@ -442,4 +451,108 @@
         @apply text-muted mt-8;
         font-size: 0.675rem;
     }
+
+    /* --- Inline abbreviations --- */
+    abbr[title] {
+        text-decoration: underline dotted;
+        text-decoration-color: color-mix(in srgb, var(--color-accent-blue) 60%, transparent);
+        text-underline-offset: 3px;
+        cursor: help;
+    }
+
+    /* --- Content links (accent + underline) --- */
+    .about a,
+    .page-section a,
+    .publications a {
+        @apply text-accent-blue;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+        text-decoration-color: color-mix(in srgb, var(--color-accent-blue) 50%, transparent);
+        transition: text-decoration-color 0.15s, color 0.15s;
+    }
+
+    .about a:hover,
+    .page-section a:hover,
+    .publications a:hover {
+        text-decoration-color: var(--color-accent-blue);
+    }
+
+    /* --- Page section intro paragraph --- */
+    .page-section-intro {
+        @apply text-fg-dim m-0 mb-6;
+        font-size: 0.875rem;
+        line-height: 1.8;
+    }
+
+    /* --- Projects page --- */
+    .projects-grid {
+        @apply grid gap-4;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    .project-card {
+        @apply bg-bg-elev border border-border p-5 flex flex-col;
+        border-radius: 10px;
+        transition: border-color 0.15s, transform 0.15s;
+    }
+
+    .project-card:hover {
+        @apply -translate-y-px;
+        border-color: color-mix(in srgb, var(--color-accent-blue) 40%, transparent);
+    }
+
+    .project-card-link {
+        @apply no-underline flex flex-col flex-1;
+        color: inherit;
+    }
+
+    .project-card-link:hover { text-decoration: none; }
+
+    .project-card-title {
+        @apply font-semibold text-accent-blue m-0;
+        margin-bottom: 0.4rem;
+        font-size: 0.875rem;
+    }
+
+    .project-card-desc {
+        @apply text-fg-dim m-0 flex-1;
+        font-size: 0.775rem;
+        line-height: 1.65;
+    }
+
+    .project-card-tags {
+        @apply flex flex-wrap items-center mt-4;
+        gap: 0.4rem;
+    }
+
+    .project-card-tags .tag {
+        @apply text-accent-mag border rounded-full;
+        padding: 0.1rem 0.5rem;
+        font-size: 0.675rem;
+        background-color: color-mix(in srgb, var(--color-accent-mag) 12%, transparent);
+        border-color: color-mix(in srgb, var(--color-accent-mag) 25%, transparent);
+    }
+
+    /* --- Publications --- */
+    .publications-group-title {
+        @apply text-muted font-semibold uppercase m-0;
+        margin-top: 1.25rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+    }
+
+    .publications-list {
+        @apply text-fg-dim m-0;
+        padding-left: 1.25rem;
+        font-size: 0.85rem;
+        line-height: 1.7;
+    }
+
+    .publications-list li { @apply mb-3; }
+
+    .publication-title { @apply text-fg; }
+
+    .publication-venue em { @apply not-italic text-fg-dim; }
 }
