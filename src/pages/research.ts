@@ -61,11 +61,14 @@ function renderPublications(pubs: Publication[]) {
         }
         list.appendChild(ol);
     }
+
+    list.addEventListener("click", onCopyClick);
 }
 
 function renderEntry(p: Publication): HTMLLIElement {
     const li = document.createElement("li");
     li.className = "publication";
+    li.dataset.bibtex = genBibtex(p);
 
     const authors = p.authors.join(", ");
     const link = p.doi
@@ -75,11 +78,82 @@ function renderEntry(p: Publication): HTMLLIElement {
             : "";
 
     li.innerHTML = `
-        <span class="publication-authors">${escHtml(authors)}</span>.
-        <span class="publication-title">${escHtml(p.title)}</span>.
-        <span class="publication-venue"><em>${escHtml(p.venue)}</em>, ${p.year}</span>.${link ? ` ${link}` : ""}
+        <button class="bibtex-copy" type="button" aria-label="Copy BibTeX citation" title="Copy BibTeX">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" width="13" height="13" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" />
+            </svg>
+        </button>
+        <div class="publication-title">${escHtml(p.title)}</div>
+        <div class="publication-authors">${escHtml(authors)}</div>
+        <div class="publication-meta"><em>${escHtml(p.venue)}</em>. ${p.year}.${link ? ` ${link}` : ""}</div>
     `;
     return li;
+}
+
+function genCitationKey(p: Publication): string {
+    const firstAuthor = p.authors[0] ?? "anon";
+    const lastName = firstAuthor.trim().split(/\s+/).pop()?.toLowerCase() ?? "anon";
+    const titleWord = p.title
+        .toLowerCase()
+        .replace(/[^a-z0-9 ]/g, "")
+        .split(/\s+/)
+        .find(w => w.length > 3) ?? "";
+    return `${lastName}${p.year}${titleWord}`.replace(/[^a-z0-9]/g, "");
+}
+
+function genBibtex(p: Publication): string {
+    const key = genCitationKey(p);
+    const author = p.authors.join(" and ");
+    const fields: string[] = [
+        `    title = {${p.title}}`,
+        `    author = {${author}}`,
+    ];
+    let entryType = "@misc";
+    switch (p.type) {
+        case "paper":
+            entryType = "@article";
+            fields.push(`    journal = {${p.venue}}`);
+            break;
+        case "thesis":
+            entryType = "@phdthesis";
+            fields.push(`    school = {${p.venue}}`);
+            break;
+        case "preprint":
+            fields.push(`    howpublished = {${p.venue}}`);
+            fields.push(`    note = {Preprint}`);
+            break;
+        case "talk":
+            fields.push(`    howpublished = {Talk at ${p.venue}}`);
+            break;
+        case "poster":
+            fields.push(`    howpublished = {Poster at ${p.venue}}`);
+            break;
+    }
+    fields.push(`    year = {${p.year}}`);
+    if (p.doi) fields.push(`    doi = {${p.doi}}`);
+    if (p.url) fields.push(`    url = {${p.url}}`);
+    return `${entryType}{${key},\n${fields.join(",\n")}\n}`;
+}
+
+async function onCopyClick(e: Event) {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>(".bibtex-copy");
+    if (!btn) return;
+    const card = btn.closest<HTMLElement>(".publication");
+    const bib = card?.dataset.bibtex;
+    if (!bib) return;
+    try {
+        await navigator.clipboard.writeText(bib);
+        btn.classList.add("copied");
+        btn.setAttribute("aria-label", "Copied!");
+        setTimeout(() => {
+            btn.classList.remove("copied");
+            btn.setAttribute("aria-label", "Copy BibTeX citation");
+        }, 2000);
+    } catch (err) {
+        console.error("Copy failed:", err);
+    }
 }
 
 render().catch(console.error);
