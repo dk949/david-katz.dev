@@ -339,9 +339,25 @@
     }
 
     /* --- Activity page --- */
+    /* Activity main grows to fill available space (capped at 1200px) so the
+       contrib grid can widen alongside the viewport. */
+    body[data-route="activity"] main { max-width: 1200px; }
+
     .contrib-grid {
         @apply grid gap-4 mb-12;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 768px) {
+        .contrib-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 920px) {
+        .contrib-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (min-width: 1232px) {
+        .contrib-grid { grid-template-columns: repeat(4, 1fr); }
     }
 
     .contrib-card {
