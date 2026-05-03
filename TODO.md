@@ -12,6 +12,7 @@
 * [ ] Add "Other projects" sidebar item for other web based stuff I've made.
   These will not be hosted in the same repo (likely linked using subdomains)
 * [ ] Add links/references to everything that needs them.
+    * [ ] Add accent color + underline for links
 * [ ] Add abbreviation expansions on hover (instead of putting them in
   parentheses).
 * [ ] Automatically populate publications from the yaml file
