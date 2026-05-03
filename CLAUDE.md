@@ -52,7 +52,7 @@ public/                   ← static assets served at site root (favicon, avatar
 
 - **Structure in HTML, behavior in TS.** Don't render full markup from TS — wire up listeners and inject only dynamic content (see `pages/activity.ts` for the accepted pattern).
 - **Shared HTML via partials.** Markup duplicated across pages (nav, footer) lives in `src/partials/*.html` and is inlined at build time via the `htmlPartials` Vite plugin (`<!-- @include name -->`). Edit the partial, not the per-page copy.
-- **Indentation: 4 spaces** (`.editorconfig`). LF line endings, final newline.
+- **Indentation: 2 spaces (HTML) 4 spaces (everything else)** (`.editorconfig`). LF line endings, final newline.
 - **Strict TS.** `noUncheckedIndexedAccess` is on — destructure with explicit non-null assertions where the shape is guaranteed (`const [owner] = slug.split("/") as [string, string]`).
 - **Theming.** **Tokyo Night** palette — dark default with neon accents, matching light mode driven by `prefers-color-scheme` media query in CSS (no JS toggle, no manual switch). Theme tokens live as CSS variables in `src/styles.css`.
 - **Accessibility.** Drawer in `lib/sidebar.ts` manages `aria-hidden`/`aria-expanded`, focus trap, Escape-to-close. Preserve this when editing nav.
