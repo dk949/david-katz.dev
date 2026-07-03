@@ -19,6 +19,7 @@ This file is the single source of truth for project intent and conventions.
 - **Tailwind CSS 4** — via `@tailwindcss/vite`; global styles + custom CSS vars in `src/styles.css`
 - **TypeScript** — strict, `noUncheckedIndexedAccess`, ESNext modules, bundler resolution
 - **JetBrains Mono** — variable font via `@fontsource-variable/jetbrains-mono`
+- **Archivo** — variable font (wght + wdth) via `@fontsource-variable/archivo`
 
 ## Commands
 
@@ -54,7 +55,8 @@ public/                   ← static assets served at site root (favicon, avatar
 - **Shared HTML via partials.** Markup duplicated across pages (nav, footer) lives in `src/partials/*.html` and is inlined at build time via the `htmlPartials` Vite plugin (`<!-- @include name -->`). Edit the partial, not the per-page copy.
 - **Indentation: 2 spaces (HTML) 4 spaces (everything else)** (`.editorconfig`). LF line endings, final newline.
 - **Strict TS.** `noUncheckedIndexedAccess` is on — destructure with explicit non-null assertions where the shape is guaranteed (`const [owner] = slug.split("/") as [string, string]`).
-- **Theming.** **Tokyo Night** palette — dark default with neon accents, matching light mode driven by `prefers-color-scheme` media query in CSS (no JS toggle, no manual switch). Theme tokens live as CSS variables in `src/styles.css`.
+- **Theming.** **Silicon + Copper** palette — wafer-grey surfaces, copper accent (interactive), teal secondary (informational), green for success states. Light default, dark via `prefers-color-scheme` media query in CSS (no JS toggle, no manual switch). Theme tokens live as CSS variables in `src/styles.css`; all fg/bg pairs validated ≥ WCAG AA.
+- **Typography.** Archivo Variable (wght + wdth axes) for display headings and body copy; JetBrains Mono for labels, nav, data, and metadata. Section `h2`s render as lowercase mono labels with a CSS-generated `%` prefix (MLIR SSA-value nod) — heading text itself stays plain.
 - **Accessibility.** Drawer in `lib/sidebar.ts` manages `aria-hidden`/`aria-expanded`, focus trap, Escape-to-close. Preserve this when editing nav.
 - **HTML escaping.** Any user/API string injected into `innerHTML` must go through `escHtml` (see `pages/activity.ts`). Prefer `textContent` when no markup is needed.
 - **Mobile + desktop.** Both must work. Drawer collapses on mobile, sidebar on desktop.

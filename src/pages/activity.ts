@@ -71,7 +71,7 @@ function renderLanguages(languages: Language[]) {
     item.innerHTML = `
       <span class="lang-legend-dot" style="background-color: ${lang.color};" aria-hidden="true"></span>
       <span>${escHtml(lang.name)}</span>
-      <span style="color: var(--muted)">${lang.percent.toFixed(1)}%</span>
+      <span style="color: var(--color-muted)">${lang.percent.toFixed(1)}%</span>
     `;
     legend.appendChild(item);
   }

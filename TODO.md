@@ -21,6 +21,8 @@
 * [x] Add abbreviation expansions on hover (instead of putting them in
   parentheses).
 * [x] Automatically populate publications from the yaml file
+* [x] Visual refresh: silicon+copper palette, Archivo display/body type,
+  layout polish (both themes, AA contrast, no content/functionality loss)
 * [x] Make pages more visually interesting
     * [x] Home
         * [x] Add appropriate colours for contact links
