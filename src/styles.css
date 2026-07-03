@@ -69,11 +69,11 @@
         }
     }
 
-    /* Desktop grid: [rail 64px] [content] */
+    /* Desktop grid: [sidebar 190px] [content] */
     @media (min-width: 768px) {
         body {
             @apply grid items-start;
-            grid-template-columns: 64px 1fr;
+            grid-template-columns: 190px 1fr;
             grid-template-rows: 1fr;
         }
         .topbar { display: none !important; }
@@ -98,26 +98,44 @@
 
 /* === Components === */
 @layer components {
-    /* --- Rail (desktop sidebar) --- */
+    /* --- Sidebar (desktop) --- */
     aside.rail {
-        @apply flex-col items-center gap-1.5 sticky top-0 h-svh py-6 bg-transparent border-r border-divider;
+        @apply flex-col gap-1 sticky top-0 h-svh py-6 px-3 bg-transparent border-r border-divider;
     }
 
-    .rail a {
-        @apply flex items-center justify-center w-11 h-11 rounded-lg text-muted no-underline relative;
+    .rail-brand {
+        @apply mb-6 px-3;
+    }
+
+    .rail-brand a {
+        @apply font-mono text-muted no-underline;
+        font-size: 0.75rem;
+        letter-spacing: 0.02em;
+        transition: color 0.15s;
+    }
+
+    .rail-brand a:hover { @apply text-accent; }
+
+    .rail-brand a:focus-visible {
+        @apply text-accent outline-2 outline-accent outline-offset-2;
+    }
+
+    .rail a[data-nav] {
+        @apply flex items-center gap-3 w-full px-3 py-2.5 rounded-lg font-mono lowercase text-muted no-underline relative;
+        font-size: 0.9rem;
         transition: color 0.15s, background-color 0.15s;
     }
 
-    .rail a:hover {
+    .rail a[data-nav]:hover {
         @apply text-accent;
         background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
     }
 
-    .rail a:focus-visible {
+    .rail a[data-nav]:focus-visible {
         @apply text-accent outline-2 outline-accent outline-offset-2;
     }
 
-    /* Active nav highlight (rail + drawer) */
+    /* Active nav highlight (sidebar + drawer) */
     body[data-route="home"]     [data-nav="home"],
     body[data-route="research"] [data-nav="research"],
     body[data-route="activity"] [data-nav="activity"],
@@ -125,32 +143,28 @@
         @apply text-accent;
     }
 
-    /* Copper edge bar marking the active rail icon */
+    /* Copper edge bar marking the active sidebar link */
     body[data-route="home"]     .rail [data-nav="home"]::before,
     body[data-route="research"] .rail [data-nav="research"]::before,
     body[data-route="activity"] .rail [data-nav="activity"]::before,
     body[data-route="projects"] .rail [data-nav="projects"]::before {
         @apply absolute bg-accent;
         content: "";
-        left: -10px;
+        left: -12px;
         top: 50%;
         transform: translateY(-50%);
         width: 3px;
-        height: 22px;
+        height: 20px;
         border-radius: 0 2px 2px 0;
     }
 
-    /* Hover tooltip */
+    /* Nav labels (formerly hover tooltips): plain inline text now */
     .rail .tip {
-        @apply absolute top-1/2 -translate-y-1/2 font-mono lowercase bg-bg-elev text-fg whitespace-nowrap opacity-0 pointer-events-none border border-border z-50 transition-opacity duration-150;
-        left: calc(100% + 10px);
-        font-size: 0.7rem;
-        padding: 0.25rem 0.625rem;
-        border-radius: 5px;
+        @apply static opacity-100 bg-transparent border-0 p-0 whitespace-nowrap pointer-events-none;
+        font-size: inherit;
+        color: inherit;
+        transform: none;
     }
-
-    .rail a:hover .tip,
-    .rail a:focus-visible .tip { @apply opacity-100; }
 
     /* --- Top bar (mobile) --- */
     .topbar {
@@ -160,7 +174,7 @@
 
     .topbar .site-name {
         @apply font-mono text-fg-dim flex-1;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         letter-spacing: 0.02em;
     }
 
@@ -175,7 +189,7 @@
     /* --- Drawer (mobile) --- */
     #drawer {
         @apply fixed inset-y-0 left-0 z-50 px-3 py-6 flex flex-col gap-1 overflow-y-auto bg-bg-rail border-r border-divider -translate-x-full;
-        width: 220px;
+        width: 230px;
         transition: transform 0.25s ease;
     }
 
@@ -197,7 +211,7 @@
 
     .drawer-title {
         @apply font-mono text-muted lowercase;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         letter-spacing: 0.06em;
     }
 
@@ -212,7 +226,7 @@
 
     .drawer-link {
         @apply flex items-center gap-3 px-3 py-2.5 rounded-lg no-underline font-mono lowercase text-fg-dim;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         transition: color 0.15s, background-color 0.15s;
     }
 
@@ -227,8 +241,8 @@
 
     /* --- Main content --- */
     main {
-        @apply px-10 py-16;
-        max-width: 760px;
+        @apply w-full px-12 py-16 mx-auto;
+        max-width: 1100px;
     }
 
     @media (max-width: 767px) {
@@ -236,8 +250,31 @@
     }
 
     /* --- Hero (index.html) --- */
+    /* Asymmetric band: name/contact left, avatar right, faint wafer die
+       grid behind, hairline base with a copper trace segment. */
     .hero {
-        @apply flex items-start gap-8 mb-14;
+        @apply flex flex-row-reverse items-start justify-between gap-10 mb-12 pb-10 border-b border-divider relative;
+    }
+
+    .hero::before {
+        @apply absolute pointer-events-none;
+        content: "";
+        inset: -2rem 0 0 0;
+        background-image:
+            linear-gradient(var(--color-divider) 1px, transparent 1px),
+            linear-gradient(90deg, var(--color-divider) 1px, transparent 1px);
+        background-size: 28px 28px;
+        mask-image: radial-gradient(ellipse 70% 100% at 100% 0%, black 0%, transparent 75%);
+    }
+
+    .hero::after {
+        @apply absolute bg-accent;
+        content: "";
+        left: 0;
+        bottom: -2px;
+        width: 3rem;
+        height: 3px;
+        border-radius: 2px;
     }
 
     @media (max-width: 767px) {
@@ -245,23 +282,25 @@
     }
 
     .avatar {
-        @apply w-24 h-24 rounded-2xl border-2 border-accent flex-shrink-0;
-        box-shadow: 0 0 20px color-mix(in srgb, var(--color-accent) 25%, transparent);
+        @apply w-32 h-32 rounded-2xl border-2 border-accent flex-shrink-0 relative;
+        box-shadow: 0 0 24px color-mix(in srgb, var(--color-accent) 25%, transparent);
     }
+
+    .hero-info { @apply flex-1; }
 
     .hero-info h1 {
         @apply m-0 text-fg;
-        margin-bottom: 0.3rem;
-        font-size: clamp(1.9rem, 5vw, 2.5rem);
+        margin-bottom: 0.4rem;
+        font-size: clamp(2.2rem, 5.5vw, 3.4rem);
         font-weight: 800;
-        font-stretch: 115%;
+        font-stretch: 118%;
         letter-spacing: -0.02em;
-        line-height: 1.1;
+        line-height: 1.05;
     }
 
     .hero-info .tagline {
-        @apply font-mono text-muted m-0 mb-6;
-        font-size: 0.8rem;
+        @apply font-mono text-muted m-0 mb-7;
+        font-size: 0.95rem;
         letter-spacing: 0.03em;
     }
 
@@ -270,15 +309,25 @@
 
     .about p {
         @apply text-fg-dim m-0 mb-4;
-        font-size: 0.95rem;
+        font-size: 1.125rem;
         line-height: 1.75;
     }
 
     .about p:last-child { @apply mb-0; }
 
+    /* Wide screens: the two about paragraphs sit side by side */
+    @media (min-width: 1100px) {
+        .about {
+            @apply grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 4rem;
+        }
+        .about p { @apply mb-0; }
+    }
+
     /* --- Contact --- */
     .contact {
-        @apply flex flex-wrap items-center gap-2.5;
+        @apply flex flex-wrap items-center gap-2.5 relative;
     }
 
     @media (max-width: 767px) {
@@ -287,11 +336,13 @@
 
     .contact-link {
         @apply inline-flex items-center font-mono text-fg-dim no-underline rounded-md border border-border;
-        gap: 0.4rem;
-        font-size: 0.775rem;
-        padding: 0.375rem 0.75rem;
+        gap: 0.45rem;
+        font-size: 0.85rem;
+        padding: 0.45rem 0.85rem;
         transition: color 0.15s, border-color 0.15s, background-color 0.15s;
     }
+
+    .contact-link svg { width: 15px; height: 15px; }
 
     .contact-link:hover,
     .contact-link:focus-visible {
@@ -307,8 +358,8 @@
 
     #copy-email {
         @apply inline-flex items-center justify-center bg-transparent border border-border rounded-md cursor-pointer text-muted p-0;
-        width: 28px;
-        height: 28px;
+        width: 31px;
+        height: 31px;
         transition: color 0.15s, border-color 0.15s, background-color 0.15s;
     }
 
@@ -350,7 +401,7 @@
     /* --- Footer --- */
     footer {
         @apply font-mono mt-16 pt-5 border-t border-divider text-muted;
-        font-size: 0.7rem;
+        font-size: 0.75rem;
         line-height: 1.6;
     }
 
@@ -359,43 +410,44 @@
 
     /* --- Research / shared page chrome --- */
     .page-title {
-        @apply text-fg m-0 mb-2;
-        font-size: 1.6rem;
+        @apply text-fg m-0 mb-8 pb-4 border-b border-divider relative;
+        font-size: clamp(1.7rem, 3.5vw, 2.1rem);
         font-weight: 800;
-        font-stretch: 115%;
+        font-stretch: 118%;
         letter-spacing: -0.02em;
     }
 
-    /* Copper trace under page titles */
+    /* Copper trace on the page title rule */
     .page-title::after {
-        @apply block bg-accent;
+        @apply absolute bg-accent;
         content: "";
-        width: 2.5rem;
+        left: 0;
+        bottom: -2px;
+        width: 3rem;
         height: 3px;
-        margin-top: 0.6rem;
-        margin-bottom: 2rem;
         border-radius: 2px;
     }
 
-    .page-section { @apply mb-10; }
+    .page-section { @apply mb-12; }
 
     /* Section labels: mono, lowercase, SSA-value style (%focus) */
     .page-section h2,
     .lang-section h2 {
         @apply font-mono font-semibold text-accent m-0 lowercase;
-        margin-bottom: 0.875rem;
-        font-size: 0.75rem;
-        letter-spacing: 0.08em;
+        margin-bottom: 1rem;
+        font-size: 1.05rem;
+        letter-spacing: 0.06em;
     }
 
     .page-section h2::before,
     .lang-section h2::before {
         content: "%";
+        opacity: 0.55;
     }
 
     .page-section p {
         @apply text-fg-dim m-0 mb-4;
-        font-size: 0.95rem;
+        font-size: 1.125rem;
         line-height: 1.75;
     }
 
@@ -404,7 +456,7 @@
     .page-section ul {
         @apply text-fg-dim m-0;
         padding-left: 1.25rem;
-        font-size: 0.95rem;
+        font-size: 1.125rem;
         line-height: 1.75;
     }
 
@@ -414,13 +466,13 @@
     .page-section ul.interest-list {
         @apply text-fg-dim m-0 p-0;
         list-style: none;
-        font-size: 0.95rem;
+        font-size: 1.125rem;
         line-height: 1.7;
     }
 
     .page-section ul.interest-list li {
         @apply mb-2 relative;
-        padding-left: 1.25rem;
+        padding-left: 1.4rem;
     }
 
     .page-section ul.interest-list li::before {
@@ -432,7 +484,25 @@
 
     .placeholder-block {
         @apply font-mono border border-dashed border-border rounded-lg p-5 text-muted text-center;
-        font-size: 0.775rem;
+        font-size: 0.85rem;
+    }
+
+    /* --- Research page: two-column grid on wide screens ---
+       Focus + interests stack on the left, publications fill the right. */
+    @media (min-width: 1100px) {
+        body[data-route="research"] main {
+            @apply grid items-start;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            column-gap: 4rem;
+        }
+        body[data-route="research"] main > .page-title,
+        body[data-route="research"] main > footer {
+            grid-column: 1 / -1;
+        }
+        body[data-route="research"] main > #publications {
+            grid-column: 2;
+            grid-row: 2 / span 2;
+        }
     }
 
     /* --- Activity page --- */
@@ -449,11 +519,11 @@
         .contrib-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
-    @media (min-width: 920px) {
+    @media (min-width: 1040px) {
         .contrib-grid { grid-template-columns: repeat(3, 1fr); }
     }
 
-    @media (min-width: 1232px) {
+    @media (min-width: 1360px) {
         .contrib-grid { grid-template-columns: repeat(4, 1fr); }
     }
 
@@ -476,37 +546,37 @@
     .contrib-card-title {
         @apply font-mono font-semibold text-fg m-0;
         margin-bottom: 0.2rem;
-        font-size: 0.875rem;
+        font-size: 0.975rem;
     }
 
     .contrib-card-owner {
         @apply font-mono text-muted m-0 mb-3;
-        font-size: 0.7rem;
+        font-size: 0.775rem;
     }
 
     .contrib-card-desc {
         @apply text-fg-dim m-0 flex-1;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         line-height: 1.6;
     }
 
     .contrib-card-meta {
         @apply font-mono flex items-center gap-2 mt-4 text-muted;
-        font-size: 0.7rem;
+        font-size: 0.775rem;
     }
 
     .lang-pill {
         @apply text-accent-2 border rounded-full;
-        padding: 0.1rem 0.5rem;
-        font-size: 0.675rem;
+        padding: 0.15rem 0.55rem;
+        font-size: 0.75rem;
         background-color: color-mix(in srgb, var(--color-accent-2) 12%, transparent);
         border-color: color-mix(in srgb, var(--color-accent-2) 25%, transparent);
     }
 
     .pr-pill {
         @apply text-accent border rounded-full;
-        padding: 0.1rem 0.5rem;
-        font-size: 0.675rem;
+        padding: 0.15rem 0.55rem;
+        font-size: 0.75rem;
         background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
         border-color: color-mix(in srgb, var(--color-accent) 25%, transparent);
     }
@@ -519,12 +589,12 @@
     .empty-state {
         @apply font-mono text-center text-muted p-8 border border-dashed border-border;
         grid-column: 1 / -1;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         border-radius: 10px;
     }
 
     /* --- Language breakdown --- */
-    .lang-section { @apply mb-8; }
+    .lang-section { @apply mb-10; }
 
     .lang-bar {
         @apply flex overflow-hidden mb-4;
@@ -545,7 +615,7 @@
     .lang-legend-item {
         @apply font-mono flex items-center text-fg-dim;
         gap: 0.4rem;
-        font-size: 0.725rem;
+        font-size: 0.8rem;
     }
 
     .lang-legend-dot {
@@ -556,15 +626,15 @@
 
     .activity-meta {
         @apply font-mono text-muted mt-8;
-        font-size: 0.675rem;
+        font-size: 0.75rem;
     }
 
-    /* --- Inline abbreviations --- */
+    /* --- Inline abbreviations ---
+       Visually silent: expansions stay in the markup for screen readers
+       and native desktop tooltips, but no dotted underline / help cursor. */
     abbr[title] {
-        text-decoration: underline dotted;
-        text-decoration-color: color-mix(in srgb, var(--color-accent-2) 70%, transparent);
-        text-underline-offset: 3px;
-        cursor: help;
+        text-decoration: none;
+        cursor: inherit;
     }
 
     /* --- Content links (accent + underline) --- */
@@ -596,14 +666,14 @@
     /* --- Page section intro paragraph --- */
     .page-section-intro {
         @apply text-fg-dim m-0 mb-6;
-        font-size: 0.95rem;
+        font-size: 1.125rem;
         line-height: 1.75;
     }
 
     /* --- Projects page --- */
     .projects-grid {
         @apply grid gap-4;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
 
     .project-card {
@@ -627,12 +697,12 @@
     .project-card-title {
         @apply font-mono font-semibold text-fg m-0;
         margin-bottom: 0.4rem;
-        font-size: 0.875rem;
+        font-size: 0.975rem;
     }
 
     .project-card-desc {
         @apply text-fg-dim m-0 flex-1;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         line-height: 1.6;
     }
 
@@ -643,8 +713,8 @@
 
     .project-card-tags .tag {
         @apply text-accent-2 border rounded-full;
-        padding: 0.1rem 0.5rem;
-        font-size: 0.675rem;
+        padding: 0.15rem 0.55rem;
+        font-size: 0.75rem;
         background-color: color-mix(in srgb, var(--color-accent-2) 12%, transparent);
         border-color: color-mix(in srgb, var(--color-accent-2) 25%, transparent);
     }
@@ -652,9 +722,9 @@
     /* --- Publications --- */
     .publications-group-title {
         @apply font-mono text-muted font-semibold lowercase m-0;
-        margin-top: 1.25rem;
-        margin-bottom: 0.5rem;
-        font-size: 0.7rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.6rem;
+        font-size: 0.8rem;
         letter-spacing: 0.08em;
     }
 
@@ -662,15 +732,15 @@
         @apply flex flex-col text-fg-dim m-0 p-0;
         gap: 0.75rem;
         list-style: none;
-        font-size: 0.85rem;
+        font-size: 0.95rem;
         line-height: 1.6;
     }
 
     .publications-list li.publication {
         @apply bg-bg-elev border border-divider m-0 relative;
         border-radius: 10px;
-        padding: 0.9rem 1.1rem;
-        padding-right: 2.75rem;
+        padding: 1rem 1.2rem;
+        padding-right: 3rem;
         transition: border-color 0.15s;
     }
 
@@ -680,10 +750,10 @@
 
     .bibtex-copy {
         @apply absolute inline-flex items-center justify-center bg-transparent border border-border rounded-md cursor-pointer text-muted p-0;
-        top: 0.6rem;
-        right: 0.6rem;
-        width: 26px;
-        height: 26px;
+        top: 0.7rem;
+        right: 0.7rem;
+        width: 28px;
+        height: 28px;
         transition: color 0.15s, border-color 0.15s, background-color 0.15s;
     }
 
@@ -701,20 +771,20 @@
 
     .publication-title {
         @apply text-fg font-semibold;
-        font-size: 0.95rem;
+        font-size: 1.125rem;
         line-height: 1.4;
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.3rem;
     }
 
     .publication-authors {
         @apply text-fg-dim;
-        font-size: 0.85rem;
-        margin-bottom: 0.15rem;
+        font-size: 0.95rem;
+        margin-bottom: 0.2rem;
     }
 
     .publication-meta {
         @apply font-mono text-muted;
-        font-size: 0.75rem;
+        font-size: 0.85rem;
     }
 
     .publication-meta em { @apply not-italic text-fg-dim; }
