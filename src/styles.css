@@ -18,7 +18,8 @@
        sans (Archivo Variable)       - display headings + body copy
        mono (JetBrains Mono Variable) - labels, nav, data, metadata
 
-   All fg/bg pairs meet WCAG AA (>= 5.0:1, most >= 6:1).
+   All fg/bg pairs meet WCAG AA (>= 4.5:1, most >= 6:1), including the
+   per-platform brand colours on contact links (adjusted per scheme).
    =================================================================== */
 
 @theme {
@@ -61,10 +62,21 @@
         @apply font-sans bg-bg text-fg m-0 min-h-svh antialiased;
     }
 
+    /* Consistent keyboard focus ring everywhere; components with their own
+       :focus-visible rules override this via higher specificity. */
+    :focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+    }
+
+    /* Skip-link target: focused programmatically, no ring needed */
+    main:focus { outline: none; }
+
     @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
         *, *::before, *::after {
             transition-duration: 0.01ms !important;
+            transition-delay: 0.01ms !important;
             animation-duration: 0.01ms !important;
         }
     }
@@ -77,7 +89,7 @@
             grid-template-rows: 1fr;
         }
         .topbar { display: none !important; }
-        aside.rail {
+        nav.rail {
             @apply flex;
             grid-row: 1;
             grid-column: 1;
@@ -90,7 +102,7 @@
 
     /* Mobile */
     @media (max-width: 767px) {
-        aside.rail { display: none !important; }
+        nav.rail { display: none !important; }
         .topbar { @apply flex; }
         body { @apply flex flex-col; }
     }
@@ -98,8 +110,22 @@
 
 /* === Components === */
 @layer components {
+    /* --- Skip link (keyboard users jump past the nav) --- */
+    .skip-link {
+        @apply fixed z-[100] font-mono lowercase bg-bg-elev text-accent border border-border rounded-md no-underline;
+        left: 0.75rem;
+        top: 0.75rem;
+        padding: 0.55rem 0.9rem;
+        font-size: 0.85rem;
+        transform: translateY(calc(-100% - 1.5rem));
+    }
+
+    .skip-link:focus-visible {
+        transform: none;
+    }
+
     /* --- Sidebar (desktop) --- */
-    aside.rail {
+    nav.rail {
         @apply flex-col gap-1 sticky top-0 h-svh py-6 px-3 bg-transparent border-r border-divider;
     }
 
@@ -190,10 +216,18 @@
     #drawer {
         @apply fixed inset-y-0 left-0 z-50 px-3 py-6 flex flex-col gap-1 overflow-y-auto bg-bg-rail border-r border-divider -translate-x-full;
         width: 230px;
-        transition: transform 0.25s ease;
+        /* visibility keeps the closed drawer out of the tab order and the
+           accessibility tree; delayed on close so it hides after the
+           slide-out, immediate on open so focus can move in right away */
+        visibility: hidden;
+        transition: transform 0.25s ease, visibility 0s 0.25s;
     }
 
-    #drawer[aria-hidden="false"] { @apply translate-x-0; }
+    #drawer[aria-hidden="false"] {
+        @apply translate-x-0;
+        visibility: visible;
+        transition: transform 0.25s ease, visibility 0s;
+    }
 
     #drawer-backdrop {
         @apply fixed inset-0 z-[45] opacity-0 pointer-events-none;
@@ -346,7 +380,7 @@
 
     .contact-link:hover,
     .contact-link:focus-visible {
-        @apply text-accent outline-none;
+        @apply text-accent;
         border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
         background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
     }
@@ -365,7 +399,7 @@
 
     #copy-email:hover,
     #copy-email:focus-visible {
-        @apply text-ok outline-none;
+        @apply text-ok;
         border-color: color-mix(in srgb, var(--color-ok) 40%, transparent);
         background-color: color-mix(in srgb, var(--color-ok) 8%, transparent);
     }
@@ -375,11 +409,24 @@
         border-color: color-mix(in srgb, var(--color-ok) 40%, transparent);
     }
 
+    /* Copy buttons swap to a check icon while in the copied state so the
+       feedback is not colour-only. */
+    .icon-check { display: none; }
+    .copied .icon-copy { display: none; }
+    .copied .icon-check { display: block; }
+
     /* Per-platform brand colours for contact links. Icon takes brand colour
-       always; hover brings text/border/bg into the same brand. */
+       always; hover brings text/border/bg into the same brand. Values are
+       tuned per scheme so brand text stays >= 4.5:1 on the hover tint. */
     .contact-link.gh       { --brand: #6e5494; }
-    .contact-link.linkedin { --brand: #0a66c2; }
-    .contact-link.orcid    { --brand: #a6ce39; }
+    .contact-link.linkedin { --brand: #0b61b8; }
+    .contact-link.orcid    { --brand: #4f6314; }
+
+    @media (prefers-color-scheme: dark) {
+        .contact-link.gh       { --brand: #a78fc7; }
+        .contact-link.linkedin { --brand: #58a1e8; }
+        .contact-link.orcid    { --brand: #a6ce39; }
+    }
 
     .contact-link.gh svg,
     .contact-link.linkedin svg,
@@ -442,7 +489,6 @@
     .page-section h2::before,
     .lang-section h2::before {
         content: "%";
-        opacity: 0.55;
     }
 
     .page-section p {
@@ -759,7 +805,7 @@
 
     .bibtex-copy:hover,
     .bibtex-copy:focus-visible {
-        @apply text-accent outline-none;
+        @apply text-accent;
         border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
         background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
     }

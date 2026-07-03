@@ -61,8 +61,6 @@ function renderPublications(pubs: Publication[]) {
         }
         list.appendChild(ol);
     }
-
-    list.addEventListener("click", onCopyClick);
 }
 
 function renderEntry(p: Publication): HTMLLIElement {
@@ -79,16 +77,21 @@ function renderEntry(p: Publication): HTMLLIElement {
 
     li.innerHTML = `
         <button class="bibtex-copy" type="button" aria-label="Copy BibTeX citation" title="Copy BibTeX">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" width="13" height="13" aria-hidden="true">
+            <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor" width="13" height="13" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" />
+            </svg>
+            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" width="13" height="13" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
             </svg>
         </button>
         <div class="publication-title">${escHtml(p.title)}</div>
         <div class="publication-authors">${escHtml(authors)}</div>
         <div class="publication-meta"><em>${escHtml(p.venue)}</em>. ${p.year}.${link ? ` ${link}` : ""}</div>
     `;
+    li.querySelector<HTMLButtonElement>(".bibtex-copy")!.addEventListener("click", onCopyClick);
     return li;
 }
 
@@ -138,18 +141,20 @@ function genBibtex(p: Publication): string {
 }
 
 async function onCopyClick(e: Event) {
-    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>(".bibtex-copy");
-    if (!btn) return;
+    const btn = e.currentTarget as HTMLButtonElement;
     const card = btn.closest<HTMLElement>(".publication");
     const bib = card?.dataset.bibtex;
     if (!bib) return;
+    const status = document.getElementById("copy-status");
     try {
         await navigator.clipboard.writeText(bib);
         btn.classList.add("copied");
         btn.setAttribute("aria-label", "Copied!");
+        if (status) status.textContent = "BibTeX citation copied to clipboard";
         setTimeout(() => {
             btn.classList.remove("copied");
             btn.setAttribute("aria-label", "Copy BibTeX citation");
+            if (status) status.textContent = "";
         }, 2000);
     } catch (err) {
         console.error("Copy failed:", err);

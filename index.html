@@ -14,7 +14,7 @@
   <!-- @include nav -->
 
   <!-- Page content -->
-  <main>
+  <main id="main" tabindex="-1">
     <section class="hero">
       <img src="/profile-pic.png" alt="David Katz" class="avatar" width="96" height="96" />
       <div class="hero-info">
@@ -32,12 +32,17 @@
               mail
             </a>
             <button id="copy-email" aria-label="Copy email address" title="Copy email address">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" width="13" height="13" aria-hidden="true">
+              <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor" width="13" height="13" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" />
               </svg>
+              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" width="13" height="13" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+              </svg>
             </button>
+            <span id="copy-status" class="sr-only" role="status"></span>
           </div>
           <a href="https://github.com/dk949" target="_blank" rel="noopener noreferrer" class="contact-link gh"
             aria-label="GitHub profile (opens in new tab)">
