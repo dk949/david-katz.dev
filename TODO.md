@@ -34,3 +34,11 @@
           a list
         * [x] Not much distinction between entries, consider making each one
           a card
+* [x] Extract the silicon+copper tokens into `@dk949/site-theme` and consume
+  them from npm, shared with the business card at hi.david-katz.dev
+* [ ] Scope Tailwind's source detection (`@import "tailwindcss" source(none)`
+  plus explicit `@source` lines). It currently walks the whole repo, so prose
+  in CLAUDE.md and TODO.md emits utilities for words like "grid" and "border"
+  and inflates the CSS bundle
+* [ ] Replace the favicon: `public/favicon.svg` still uses the old Tokyo Night
+  colours (#1a1b26 / #7aa2f7), which no longer match the palette

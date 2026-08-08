@@ -11,12 +11,14 @@ This file is the single source of truth for project intent and conventions.
 - **Activity page.** GitHub visualiser (OSS contributions, language breakdown, etc.). Lives off the landing page on purpose — it's a "nice to have", not the headline.
 - **Contact.** Email `dk949.david@gmail.com`, GitHub `@dk949`, LinkedIn `https://www.linkedin.com/in/dk949/`. The email is also hard-coded in `src/pages/home.ts` for the copy-to-clipboard button — update both places if it changes.
 - **Frameworks.** Intentionally avoided. Justify any added dependency by the weight it adds to the bundle.
+- **Sibling repos.** `../business-card` is the digital business card at **hi.david-katz.dev** (separate repo only because GitHub Pages allows one custom domain per repo; it links back here). `../site-theme` holds the design tokens both sites use. A palette change touches all three.
 
 ## Stack
 
 - **Vite 6** — multi-page build (see `vite.config.ts`)
 - **Plain HTML** — one file per page at the repo root (`index.html`, `research.html`, `activity.html`)
-- **Tailwind CSS 4** — via `@tailwindcss/vite`; global styles + custom CSS vars in `src/styles.css`
+- **Tailwind CSS 4** — via `@tailwindcss/vite`; global styles in `src/styles.css`
+- **@dk949/site-theme** — the Silicon + Copper tokens, shared with the business card (see "Shared theme")
 - **TypeScript** — strict, `noUncheckedIndexedAccess`, ESNext modules, bundler resolution
 - **JetBrains Mono** — variable font via `@fontsource-variable/jetbrains-mono`
 - **Archivo** — variable font (wght + wdth) via `@fontsource-variable/archivo`
@@ -37,7 +39,7 @@ This file is the single source of truth for project intent and conventions.
 ```
 index.html / research.html / activity.html  ← entry points (structure lives here)
 src/
-  styles.css              ← global Tailwind + theme tokens
+  styles.css              ← global Tailwind + site styles (tokens come from @dk949/site-theme)
   pages/{home,research,activity,projects}.ts   ← per-page behavior, mounted by entry HTML
   lib/sidebar.ts          ← shared drawer/nav, accessibility wiring
   lib/github.ts           ← typed loader for generated/github.json
@@ -55,11 +57,25 @@ public/                   ← static assets served at site root (favicon, avatar
 - **Shared HTML via partials.** Markup duplicated across pages (nav, footer) lives in `src/partials/*.html` and is inlined at build time via the `htmlPartials` Vite plugin (`<!-- @include name -->`). Edit the partial, not the per-page copy.
 - **Indentation: 2 spaces (HTML) 4 spaces (everything else)** (`.editorconfig`). LF line endings, final newline.
 - **Strict TS.** `noUncheckedIndexedAccess` is on — destructure with explicit non-null assertions where the shape is guaranteed (`const [owner] = slug.split("/") as [string, string]`).
-- **Theming.** **Silicon + Copper** palette — wafer-grey surfaces, copper accent (interactive), teal secondary (informational), green for success states. Light default, dark via `prefers-color-scheme` media query in CSS (no JS toggle, no manual switch). Theme tokens live as CSS variables in `src/styles.css`; all fg/bg pairs validated ≥ WCAG AA.
+- **Theming.** **Silicon + Copper** palette — wafer-grey surfaces, copper accent (interactive), teal secondary (informational), green for success states. Light default, dark via `prefers-color-scheme` media query in CSS (no JS toggle, no manual switch). Tokens come from the `@dk949/site-theme` package (see "Shared theme"), not from `src/styles.css`; all fg/bg pairs validated ≥ WCAG AA.
 - **Typography.** Archivo Variable (wght + wdth axes) for display headings and body copy; JetBrains Mono for labels, nav, data, and metadata. Section `h2`s render as lowercase mono labels with a CSS-generated `%` prefix (MLIR SSA-value nod) — heading text itself stays plain.
 - **Accessibility.** Drawer in `lib/sidebar.ts` manages `aria-hidden`/`aria-expanded`, focus trap, Escape-to-close. Preserve this when editing nav.
 - **HTML escaping.** Any user/API string injected into `innerHTML` must go through `escHtml` (see `pages/activity.ts`). Prefer `textContent` when no markup is needed.
 - **Mobile + desktop.** Both must work. Drawer collapses on mobile, sidebar on desktop.
+
+## Shared theme
+
+The Silicon + Copper tokens live in **[`@dk949/site-theme`](https://www.npmjs.com/package/@dk949/site-theme)** (source: [dk949/site-theme](https://github.com/dk949/site-theme), local checkout at `../site-theme`), consumed by this site and by the business card. Neither keeps a local copy.
+
+```css
+@import "@dk949/site-theme/theme.css";
+```
+
+Tailwind 4 resolves `@import` out of `node_modules`, so the `@theme` block behaves exactly as it did inline.
+
+**The package is tokens only** — the `@theme` block and the `prefers-color-scheme` override, nothing else. Layout, components, and anything page-specific stay in `src/styles.css`. Loading Archivo and JetBrains Mono is also this repo's job; the theme only names them.
+
+**Changing a token means releasing the package**, not editing a file here: bump the version in `../site-theme`, `npm publish`, then `npm install` here and in the card. Versioning is semver on the rendered result (patch for a colour nudge that preserves every role and contrast ratio, minor for a new token, major for removing or repurposing one). The `^` range means `npm ci` stays pinned by the lockfile, so a theme release never lands on the live site until this repo's own build runs.
 
 ## Git conventions
 

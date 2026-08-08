@@ -2,57 +2,12 @@
 @import "@fontsource-variable/jetbrains-mono/index.css";
 @import "@fontsource-variable/archivo/wdth.css";
 
-/* ===================================================================
-   Theme: Silicon + Copper
-   Wafer-grey surfaces with a copper interconnect accent and a teal
-   secondary. Light is the default; dark swaps the underlying CSS vars
-   via prefers-color-scheme. Utilities like `bg-bg`, `text-fg`,
-   `text-accent` resolve to whichever set is active.
-
-   Color roles:
-       accent   (copper) - interactive: links, nav, hover, focus
-       accent-2 (teal)   - informational: abbr hints, language pills
-       ok       (green)  - success: copy-to-clipboard feedback
-
-   Type roles:
-       sans (Archivo Variable)       - display headings + body copy
-       mono (JetBrains Mono Variable) - labels, nav, data, metadata
-
-   All fg/bg pairs meet WCAG AA (>= 4.5:1, most >= 6:1), including the
-   per-platform brand colours on contact links (adjusted per scheme).
-   =================================================================== */
-
-@theme {
-    --color-bg: #e8eaed;
-    --color-bg-elev: #f3f4f6;
-    --color-bg-rail: #e0e2e6;
-    --color-fg: #1b2026;
-    --color-fg-dim: #3c454f;
-    --color-muted: #59636e;
-    --color-border: rgba(27, 32, 38, 0.3);
-    --color-divider: rgba(27, 32, 38, 0.14);
-    --color-accent: #96470a;
-    --color-accent-2: #0b5f6e;
-    --color-ok: #2c6a2e;
-    --font-mono: "JetBrains Mono Variable", monospace;
-    --font-sans: "Archivo Variable", sans-serif;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-bg: #14161a;
-        --color-bg-elev: #1b1e24;
-        --color-bg-rail: #17191e;
-        --color-fg: #e3e7ec;
-        --color-fg-dim: #b3bcc6;
-        --color-muted: #8b96a2;
-        --color-border: rgba(227, 231, 236, 0.3);
-        --color-divider: rgba(227, 231, 236, 0.12);
-        --color-accent: #e08e4f;
-        --color-accent-2: #5fc4d6;
-        --color-ok: #84c77a;
-    }
-}
+/* Silicon + Copper theme tokens. Shared with the business card at
+   hi.david-katz.dev; the canonical source is
+   https://github.com/dk949/site-theme. Colour and type roles, and the
+   dark-scheme override, are all documented there. Site-specific styles
+   stay in this file. */
+@import "@dk949/site-theme/theme.css";
 
 /* === Base === */
 @layer base {

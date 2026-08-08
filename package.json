@@ -21,6 +21,7 @@
     "vite": "^6.0.0"
   },
   "dependencies": {
+    "@dk949/site-theme": "^1.0.0",
     "@fontsource-variable/archivo": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.0.0"
   }
