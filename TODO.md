@@ -36,7 +36,7 @@
           a card
 * [x] Extract the silicon+copper tokens into `@dk949/site-theme` and consume
   them from npm, shared with the business card at hi.david-katz.dev
-* [ ] Scope Tailwind's source detection (`@import "tailwindcss" source(none)`
+* [x] Scope Tailwind's source detection (`@import "tailwindcss" source(none)`
   plus explicit `@source` lines). It currently walks the whole repo, so prose
   in CLAUDE.md and TODO.md emits utilities for words like "grid" and "border"
   and inflates the CSS bundle

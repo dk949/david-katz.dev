@@ -1,6 +1,15 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 @import "@fontsource-variable/jetbrains-mono/index.css";
 @import "@fontsource-variable/archivo/wdth.css";
+
+/* Automatic source detection walks the whole repo, so prose in CLAUDE.md and
+   TODO.md emits utilities for words like "grid" and "border". List the files
+   that actually carry class names instead. Add a line here for any new
+   directory of markup or page behavior. */
+@source "../*.html";
+@source "./partials/*.html";
+@source "./pages/*.ts";
+@source "./lib/*.ts";
 
 /* Silicon + Copper theme tokens. Shared with the business card at
    hi.david-katz.dev; the canonical source is
