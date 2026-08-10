@@ -40,5 +40,5 @@
   plus explicit `@source` lines). It currently walks the whole repo, so prose
   in CLAUDE.md and TODO.md emits utilities for words like "grid" and "border"
   and inflates the CSS bundle
-* [ ] Replace the favicon: `public/favicon.svg` still uses the old Tokyo Night
+* [X] Replace the favicon: `public/favicon.svg` still uses the old Tokyo Night
   colours (#1a1b26 / #7aa2f7), which no longer match the palette
