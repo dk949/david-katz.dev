@@ -57,7 +57,7 @@
     * [x] Shrink the avatar: 680 KB 728px PNG → 124/248/372px WebP
       (`avatar-*.webp`) served via `srcset`; sized to the 124px
       content box (128px minus border) so the browser never rescales
-    * [ ] Rework titles/descriptions: home title is just "David Katz",
+    * [x] Rework titles/descriptions: home title is just "David Katz",
       projects description is "Other web-based things."
     * [ ] PNG `apple-touch-icon` (iMessage/iOS ignore SVG favicons); belongs
       in `@dk949/site-theme` next to the favicon
