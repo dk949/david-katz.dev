@@ -8,6 +8,39 @@
   <title>David Katz</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/src/styles.css" />
+  <!-- Structured data (schema.org). Keep sameAs in step with the contact links below. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      "url": "https://david-katz.dev/",
+      "mainEntity": {
+        "@type": "Person",
+        "name": "David Katz",
+        "url": "https://david-katz.dev/",
+        "image": "https://david-katz.dev/profile-pic.png",
+        "jobTitle": "PhD Student",
+        "description": "PhD student in High Performance Computing, specialising in compiler design for novel architectures.",
+        "affiliation": {
+          "@type": "ResearchOrganization",
+          "name": "EPCC",
+          "url": "https://www.epcc.ed.ac.uk/",
+          "parentOrganization": {
+            "@type": "CollegeOrUniversity",
+            "name": "The University of Edinburgh",
+            "url": "https://www.ed.ac.uk/"
+          }
+        },
+        "knowsAbout": ["High Performance Computing", "Compilers", "LLVM", "MLIR"],
+        "sameAs": [
+          "https://github.com/dk949",
+          "https://www.linkedin.com/in/dk949/",
+          "https://orcid.org/0009-0003-7387-6169",
+          "https://hi.david-katz.dev/"
+        ]
+      }
+    }
+  </script>
 </head>
 
 <body>
