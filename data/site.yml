@@ -56,7 +56,7 @@ publications:
       venue: SC25
       year: 2025
       type: paper
-      doi: 10.1145/3731599.376748
+      doi: 10.1145/3731599.3767485
       url: https://dl.acm.org/doi/10.1145/3731599.3767485
     - title: Implementing OpenMP for Zig to Enable Its Use in HPC Context
       authors: [David Katz, Nick Brown, Joseph Lee]
