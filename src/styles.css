@@ -97,12 +97,16 @@
         @apply mb-6 px-3;
     }
 
+    /* Monogram stacked over the domain. The mark is always copper (it is
+       the favicon at a larger size); the domain warms to copper on hover. */
     .rail-brand a {
-        @apply font-mono text-muted no-underline;
+        @apply flex flex-col items-start gap-3 font-mono text-muted no-underline;
         font-size: 0.75rem;
         letter-spacing: 0.02em;
         transition: color 0.15s;
     }
+
+    .rail-brand .mark { @apply text-accent; }
 
     .rail-brand a:hover { @apply text-accent; }
 
@@ -162,8 +166,14 @@
         height: 56px;
     }
 
+    .topbar-brand {
+        @apply flex flex-1 items-center gap-2.5 no-underline;
+    }
+
+    .topbar-brand .mark { @apply text-accent flex-shrink-0; }
+
     .topbar .site-name {
-        @apply font-mono text-fg-dim flex-1;
+        @apply font-mono text-fg-dim;
         font-size: 0.85rem;
         letter-spacing: 0.02em;
     }

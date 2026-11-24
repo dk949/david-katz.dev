@@ -1,5 +1,12 @@
 <a href="#main" class="skip-link">skip to content</a>
 
+<!-- DK monogram. Referenced by the top bar and the rail via <use>. Fill is currentColor. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="dk-mark" viewBox="0 0 18.7322 18.542">
+    <path fill="currentColor" d="M0 0 L0 2.235 L3.2634 2.235 C4.3302 2.235 5.1689 2.5401 5.7785 3.1497 C6.3881 3.7423 6.6926 4.5632 6.6926 5.6131 L6.6926 12.9031 C6.6926 13.953 6.3881 14.7827 5.7785 15.3923 C5.1689 16.0019 4.3302 16.3065 3.2634 16.3065 L0 16.3065 L0 18.542 L3.2634 18.542 C4.4656 18.542 5.5072 18.3135 6.3877 17.8563 C7.2852 17.3821 7.9797 16.7217 8.4708 15.875 C8.9619 15.0283 9.2072 14.0376 9.2072 12.9031 L9.2072 10.0841 L11.7476 10.0841 L15.8874 18.542 L18.7322 18.542 L14.0079 8.9157 L18.5038 0 L15.7608 0 L11.7982 7.8739 L9.2072 7.8739 L9.2072 5.6131 C9.2072 4.4786 8.9619 3.4968 8.4708 2.667 C7.9797 1.8204 7.2852 1.1683 6.3877 0.7111 C5.5072 0.2369 4.4656 0 3.2634 0 L0 0 Z M0 4.7496 L0 13.7919 L2.5146 13.7919 L2.5146 4.7496 L0 4.7496 Z" />
+  </symbol>
+</svg>
+
 <!-- Mobile top bar -->
 <header class="topbar">
   <button id="drawer-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="drawer">
@@ -8,7 +15,10 @@
       <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
     </svg>
   </button>
-  <a href="/"><span class="site-name">David Katz</span></a>
+  <a href="/" class="topbar-brand">
+    <svg class="mark" width="18" height="18" aria-hidden="true"><use href="#dk-mark" /></svg>
+    <span class="site-name">David Katz</span>
+  </a>
 </header>
 
 <!-- Mobile drawer -->
@@ -60,7 +70,10 @@
 <!-- Desktop sidebar -->
 <nav class="rail" aria-label="Main">
   <div class="rail-brand">
-    <a href="/">david-katz.dev</a>
+    <a href="/">
+      <svg class="mark" width="26" height="26" aria-hidden="true"><use href="#dk-mark" /></svg>
+      david-katz.dev
+    </a>
   </div>
   <a href="/" data-nav="home" aria-label="Home">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
