@@ -66,7 +66,7 @@
         * [x] Publish theme 1.3.0, bump `@dk949/site-theme` to `^1.3.0` here
     * [x] `rel="me"` on the home page's contact links (+ `<link rel="me">`
       for the card)
-    * [ ] Reciprocal `rel="me"` from the card back to david-katz.dev
+    * [x] Reciprocal `rel="me"` from the card back to david-katz.dev
     * [-] Activity page content is JS-injected, so non-Google crawlers see it
       empty. Data is build-time anyway; could prerender, but conflicts with
       "structure in HTML, behavior in TS". Low priority
