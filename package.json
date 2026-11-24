@@ -25,6 +25,9 @@
     "@fontsource-variable/archivo": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.0.0"
   },
+  "engines": {
+    "node": "26.x"
+  },
   "allowScripts": {
     "esbuild": true,
     "fsevents": false
