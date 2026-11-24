@@ -61,7 +61,9 @@
       projects description is "Other web-based things."
     * [ ] PNG `apple-touch-icon` (iMessage/iOS ignore SVG favicons); belongs
       in `@dk949/site-theme` next to the favicon
-    * [ ] `rel="me"` links between this site, the card, GitHub, LinkedIn
+    * [x] `rel="me"` on the home page's contact links (+ `<link rel="me">`
+      for the card)
+    * [ ] Reciprocal `rel="me"` from the card back to david-katz.dev
     * [ ] Activity page content is JS-injected, so non-Google crawlers see it
       empty. Data is build-time anyway; could prerender, but conflicts with
       "structure in HTML, behavior in TS". Low priority
