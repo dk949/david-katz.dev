@@ -16,7 +16,7 @@ This file is the single source of truth for project intent and conventions.
 ## Stack
 
 - **Vite 6** — multi-page build (see `vite.config.ts`)
-- **Plain HTML** — one file per page at the repo root (`index.html`, `research.html`, `activity.html`)
+- **Plain HTML** — one file per page at the repo root (`index.html`, `research.html`, `activity.html`, `projects.html`)
 - **Tailwind CSS 4** — via `@tailwindcss/vite`; global styles in `src/styles.css`
 - **@dk949/site-theme** — the Silicon + Copper tokens, shared with the business card (see "Shared theme")
 - **TypeScript** — strict, `noUncheckedIndexedAccess`, ESNext modules, bundler resolution
@@ -37,7 +37,7 @@ This file is the single source of truth for project intent and conventions.
 ## Layout
 
 ```
-index.html / research.html / activity.html  ← entry points (structure lives here)
+index.html / research.html / activity.html / projects.html  ← entry points (structure lives here)
 src/
   styles.css              ← global Tailwind + site styles (tokens come from @dk949/site-theme)
   pages/{home,research,activity,projects}.ts   ← per-page behavior, mounted by entry HTML
@@ -48,12 +48,14 @@ src/
   partials/{nav,footer}.html  ← HTML fragments included via `<!-- @include name -->`
 data/site.yml             ← single source of truth for build-time data: ignore lists, contribution pins, projects, publications
 scripts/fetch-github.ts   ← prebuild: hits GitHub API, writes generated/github.json
-public/                   ← static assets served at site root (avatar; the favicon comes from @dk949/site-theme)
+public/                   ← static assets served at site root (avatar, og-image.png; the favicon comes from @dk949/site-theme)
+assets/og-image.svg       ← source for public/og-image.png (export steps in the file's header comment)
 ```
 
 ## Conventions
 
 - **Structure in HTML, behavior in TS.** Don't render full markup from TS — wire up listeners and inject only dynamic content (see `pages/activity.ts` for the accepted pattern).
+- **Link previews.** The `socialMeta` plugin in `vite.config.ts` derives Open Graph/Twitter tags and the canonical URL from each page's `<title>` and meta description, and fails the build if either is missing. Edit those two, not the og tags. A new page gets previews for free.
 - **Shared HTML via partials.** Markup duplicated across pages (nav, footer) lives in `src/partials/*.html` and is inlined at build time via the `htmlPartials` Vite plugin (`<!-- @include name -->`). Edit the partial, not the per-page copy.
 - **Indentation: 2 spaces (HTML) 4 spaces (everything else)** (`.editorconfig`). LF line endings, final newline.
 - **Strict TS.** `noUncheckedIndexedAccess` is on — destructure with explicit non-null assertions where the shape is guaranteed (`const [owner] = slug.split("/") as [string, string]`).

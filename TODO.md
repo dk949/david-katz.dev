@@ -42,3 +42,26 @@
   and inflates the CSS bundle
 * [X] Replace the favicon: `public/favicon.svg` still uses the old Tokyo Night
   colours (#1a1b26 / #7aa2f7), which no longer match the palette
+* [>] SEO
+    * [x] Link previews: Open Graph + Twitter card tags, canonical URLs, and
+      a 1200x630 `og:image` (source in `assets/og-image.svg`)
+    * [ ] `robots.txt` + `sitemap.xml` (generate the sitemap from the page
+      list in `vite.config.ts`)
+    * [ ] Clean URLs: `cleanUrls: true` in `vercel.json`, drop `.html` from
+      nav links and from the canonical/`og:url` the `socialMeta` plugin emits.
+      Vercel currently serves `/research` and `/research.html` as duplicates
+    * [ ] JSON-LD `Person` on the home page (name, url, jobTitle,
+      affiliation, `sameAs` GitHub/LinkedIn/ORCID/card); maybe
+      `ScholarlyArticle` for publications
+    * [ ] Shrink `public/profile-pic.png` (680 KB, 728px, shown at 96px):
+      ~192px WebP/AVIF for Core Web Vitals
+    * [ ] Rework titles/descriptions: home title is just "David Katz",
+      projects description is "Other web-based things."
+    * [ ] PNG `apple-touch-icon` (iMessage/iOS ignore SVG favicons); belongs
+      in `@dk949/site-theme` next to the favicon
+    * [ ] `rel="me"` links between this site, the card, GitHub, LinkedIn
+    * [ ] Activity page content is JS-injected, so non-Google crawlers see it
+      empty. Data is build-time anyway; could prerender, but conflicts with
+      "structure in HTML, behavior in TS". Low priority
+    * [ ] Verify in Google Search Console, submit sitemap (manual)
+    * [ ] Minor: custom `404.html`, `theme-color` meta
