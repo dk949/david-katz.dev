@@ -103,7 +103,7 @@ Output: `src/generated/github.json` (gitignored — regenerated each prebuild). 
 
 ## Hosting
 
-Vercel, via its Git integration: every push to `trunk` runs `npm run build` (prebuild → typecheck → `vite build`) and serves `dist/`. HTTPS required (`.dev` is HSTS-preloaded); Vercel manages the certificate. No server runtime — all dynamic data is baked at build time, so the deploy is a static asset upload. Node version comes from `engines` in `package.json` (Vercel ignores `.nvmrc`).
+Vercel, via its Git integration: every push to `trunk` runs `npm run build` (prebuild → typecheck → `vite build`) and serves `dist/`. HTTPS required (`.dev` is HSTS-preloaded); Vercel manages the certificate. `vercel.json` turns on `cleanUrls` (`/research.html` 308-redirects to `/research`, trailing slashes are stripped), so internal links use the extensionless form; Vite's dev and preview servers resolve those paths natively. No server runtime — all dynamic data is baked at build time, so the deploy is a static asset upload. Node version comes from `engines` in `package.json` (Vercel ignores `.nvmrc`).
 
 `GITHUB_TOKEN` is a Vercel project environment variable holding a fine-grained PAT (public read only) so `prebuild` gets the authenticated rate limit — Vercel's build IPs are shared, so the unauthenticated 60/hr is not enough.
 

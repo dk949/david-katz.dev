@@ -51,7 +51,8 @@ function socialMeta(): Plugin {
             if (!title || !desc) {
                 throw new Error(`social-meta: ${ctx.path}: needs a <title> and a meta description`);
             }
-            const page = ctx.path === "/index.html" ? "/" : ctx.path;
+            /* Matches Vercel's cleanUrls (vercel.json): /research.html → /research */
+            const page = ctx.path.replace(/(index)?\.html$/, "");
             const url = SITE_URL + page;
             const tags = [
                 `<link rel="canonical" href="${url}" />`,

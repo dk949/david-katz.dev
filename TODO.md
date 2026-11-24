@@ -47,9 +47,8 @@
       a 1200x630 `og:image` (source in `assets/og-image.svg`)
     * [ ] `robots.txt` + `sitemap.xml` (generate the sitemap from the page
       list in `vite.config.ts`)
-    * [ ] Clean URLs: `cleanUrls: true` in `vercel.json`, drop `.html` from
-      nav links and from the canonical/`og:url` the `socialMeta` plugin emits.
-      Vercel currently serves `/research` and `/research.html` as duplicates
+    * [x] Clean URLs: `cleanUrls: true` in `vercel.json`, drop `.html` from
+      nav links and from the canonical/`og:url` the `socialMeta` plugin emits
     * [ ] JSON-LD `Person` on the home page (name, url, jobTitle,
       affiliation, `sameAs` GitHub/LinkedIn/ORCID/card); maybe
       `ScholarlyArticle` for publications
