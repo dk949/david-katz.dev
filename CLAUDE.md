@@ -48,7 +48,7 @@ src/
   partials/{nav,footer}.html  ← HTML fragments included via `<!-- @include name -->`
 data/site.yml             ← single source of truth for build-time data: ignore lists, contribution pins, projects, publications
 scripts/fetch-github.ts   ← prebuild: hits GitHub API, writes generated/github.json
-public/                   ← static assets served at site root (avatar-{124,248,372}.webp, og-image.png; the favicon comes from @dk949/site-theme)
+public/                   ← static assets served at site root (avatar-{124,248,372}.webp, og-image.png; the favicon and apple-touch-icon come from @dk949/site-theme)
 assets/og-image.svg       ← source for public/og-image.png (export steps in the file's header comment)
 ```
 
@@ -75,9 +75,9 @@ The Silicon + Copper tokens live in **[`@dk949/site-theme`](https://www.npmjs.co
 
 Tailwind 4 resolves `@import` out of `node_modules`, so the `@theme` block behaves exactly as it did inline.
 
-**The package is tokens plus the favicon** — the `@theme` block, the `prefers-color-scheme` override, `favicon.svg`, and the `themeFavicon()` Vite plugin that installs it. Nothing else: layout, components, and anything page-specific stay in `src/styles.css`. Loading Archivo and JetBrains Mono is also this repo's job; the theme only names them.
+**The package is tokens plus the icons** — the `@theme` block, the `prefers-color-scheme` override, `favicon.svg`, the 180px `apple-touch-icon.png` (iOS/iMessage ignore SVG favicons), and the `themeFavicon()` Vite plugin that installs both. Nothing else: layout, components, and anything page-specific stay in `src/styles.css`. Loading Archivo and JetBrains Mono is also this repo's job; the theme only names them.
 
-**The favicon is not in `public/`.** It ships with the theme so this site and the card cannot drift, and `public/` cannot reach into `node_modules`. `themeFavicon()` in `vite.config.ts` serves it in dev and emits it to `dist/favicon.svg` on build, so the `<link rel="icon" href="/favicon.svg">` in each page is unchanged. Editing the mark means releasing the package, same as a token.
+**The icons are not in `public/`.** They ship with the theme so this site and the card cannot drift, and `public/` cannot reach into `node_modules`. `themeFavicon()` in `vite.config.ts` serves them in dev and emits them to `dist/favicon.svg` and `dist/apple-touch-icon.png` on build, so each page's `<link rel="icon">` and `<link rel="apple-touch-icon">` point at plain root paths. Editing the mark means releasing the package, same as a token.
 
 **Changing a token means releasing the package**, not editing a file here: bump the version in `../site-theme`, `npm publish`, then `npm install` here and in the card. Versioning is semver on the rendered result (patch for a colour nudge that preserves every role and contrast ratio, minor for a new token or asset, major for removing or repurposing one). The `^` range means `npm ci` stays pinned by the lockfile, so a theme release never lands on the live site until this repo's own build runs.
 

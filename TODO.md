@@ -59,8 +59,11 @@
       content box (128px minus border) so the browser never rescales
     * [x] Rework titles/descriptions: home title is just "David Katz",
       projects description is "Other web-based things."
-    * [ ] PNG `apple-touch-icon` (iMessage/iOS ignore SVG favicons); belongs
+    * [x] PNG `apple-touch-icon` (iMessage/iOS ignore SVG favicons); belongs
       in `@dk949/site-theme` next to the favicon
+        * [x] Add `apple-touch-icon.png` + plugin support to the theme (1.3.0)
+        * [x] Link it from every page
+        * [x] Publish theme 1.3.0, bump `@dk949/site-theme` to `^1.3.0` here
     * [x] `rel="me"` on the home page's contact links (+ `<link rel="me">`
       for the card)
     * [ ] Reciprocal `rel="me"` from the card back to david-katz.dev

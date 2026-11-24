@@ -110,8 +110,8 @@ function crawlerFiles(): Plugin {
 }
 
 export default defineConfig({
-    /* themeFavicon serves and emits the favicon that ships with the theme
-       package, so this site and the business card cannot drift apart. */
+    /* themeFavicon serves and emits the favicon and apple-touch-icon that
+       ship with the theme package, so this site and the business card cannot drift apart. */
     plugins: [htmlPartials(), socialMeta(), crawlerFiles(), tailwindcss(), themeFavicon()],
     build: {
         rollupOptions: {
