@@ -18,7 +18,7 @@
         "@type": "Person",
         "name": "David Katz",
         "url": "https://david-katz.dev/",
-        "image": "https://david-katz.dev/profile-pic.png",
+        "image": "https://david-katz.dev/avatar-372.webp",
         "jobTitle": "PhD Student",
         "description": "PhD student in High Performance Computing, specialising in compiler design for novel architectures.",
         "affiliation": {
@@ -49,7 +49,10 @@
   <!-- Page content -->
   <main id="main" tabindex="-1">
     <section class="hero">
-      <img src="/profile-pic.png" alt="David Katz" class="avatar" width="96" height="96" />
+      <!-- Sized to .avatar's 124px content box (128px minus 2px border) at 1x/2x/3x;
+           regenerate them if that size changes, or the browser rescales and blurs. -->
+      <img src="/avatar-248.webp" srcset="/avatar-124.webp 1x, /avatar-248.webp 2x, /avatar-372.webp 3x"
+        alt="David Katz" class="avatar" width="128" height="128" />
       <div class="hero-info">
         <h1>David Katz</h1>
         <p class="tagline">PhD · <abbr title="High Performance Computing">HPC</abbr> · LLVM / <abbr title="Multi-Level Intermediate Representation">MLIR</abbr></p>

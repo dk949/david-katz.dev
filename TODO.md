@@ -49,13 +49,14 @@
       pages)
     * [x] Clean URLs: `cleanUrls: true` in `vercel.json`, drop `.html` from
       nav links and from the canonical/`og:url` the `socialMeta` plugin emits
-    * [>] JSON-LD `ProfilePage`/`Person` on the home page
+    * [x] JSON-LD `ProfilePage`/`Person` on the home page
         * [x] Add the block to `index.html`
         * [x] Review `jobTitle`, `description`, `knowsAbout` wording
-        * [ ] Update `image` when the avatar is resized/renamed
-        * [ ] Validate (Rich Results Test / validator.schema.org) once deployed
-    * [ ] Shrink `public/profile-pic.png` (680 KB, 728px, shown at 96px):
-      ~192px WebP/AVIF for Core Web Vitals
+        * [x] Update `image` when the avatar is resized/renamed
+        * [x] Validate (Rich Results Test / validator.schema.org) once deployed
+    * [x] Shrink the avatar: 680 KB 728px PNG → 124/248/372px WebP
+      (`avatar-*.webp`) served via `srcset`; sized to the 124px
+      content box (128px minus border) so the browser never rescales
     * [ ] Rework titles/descriptions: home title is just "David Katz",
       projects description is "Other web-based things."
     * [ ] PNG `apple-touch-icon` (iMessage/iOS ignore SVG favicons); belongs

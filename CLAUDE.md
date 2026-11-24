@@ -48,7 +48,7 @@ src/
   partials/{nav,footer}.html  ← HTML fragments included via `<!-- @include name -->`
 data/site.yml             ← single source of truth for build-time data: ignore lists, contribution pins, projects, publications
 scripts/fetch-github.ts   ← prebuild: hits GitHub API, writes generated/github.json
-public/                   ← static assets served at site root (avatar, og-image.png; the favicon comes from @dk949/site-theme)
+public/                   ← static assets served at site root (avatar-{124,248,372}.webp, og-image.png; the favicon comes from @dk949/site-theme)
 assets/og-image.svg       ← source for public/og-image.png (export steps in the file's header comment)
 ```
 
