@@ -68,5 +68,5 @@
       empty. Data is build-time anyway; could prerender, but conflicts with
       "structure in HTML, behavior in TS". Low priority
         + This is more trouble than it's worth
-    * [ ] Verify in Google Search Console, submit sitemap (manual)
+    * [X] Verify in Google Search Console, submit sitemap (manual)
     * [ ] Minor: custom `404.html`, `theme-color` meta
