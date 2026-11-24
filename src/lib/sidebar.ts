@@ -1,4 +1,4 @@
-export function initSidebar(route: "home" | "research" | "activity" | "projects") {
+export function initSidebar(route: "home" | "research" | "activity" | "projects" | "notfound") {
   document.body.dataset["route"] = route;
 
   const toggle = document.getElementById("drawer-toggle");

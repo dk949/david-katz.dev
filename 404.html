@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="This page does not exist on david-katz.dev." />
+  <!-- noindex: also keeps this page out of sitemap.xml and the canonical/og tags (vite.config.ts) -->
+  <meta name="robots" content="noindex" />
+  <title>Page not found · David Katz</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+
+<body>
+  <!-- @include nav -->
+
+  <!-- Page content -->
+  <main id="main" tabindex="-1">
+    <h1 class="page-title">404</h1>
+
+    <section class="page-section" aria-labelledby="notfound-heading">
+      <h2 id="notfound-heading">not found</h2>
+      <pre class="diagnostic"><span class="diagnostic-loc">david-katz.dev:</span> <span
+          class="diagnostic-sev">error:</span> use of undefined page '<span id="missing-path">this page</span>'</pre>
+      <p>
+        The link may be broken, or the page may have moved. Try the
+        <a href="/">home page</a>, or one of the sections in the navigation.
+      </p>
+    </section>
+
+    <!-- @include footer -->
+  </main>
+
+  <script type="module" src="/src/pages/notfound.ts"></script>
+</body>
+
+</html>

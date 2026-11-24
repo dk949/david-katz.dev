@@ -2,6 +2,7 @@ import { defineConfig, type Plugin } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import { themeFavicon } from "@dk949/site-theme/vite";
 import { readFileSync } from "fs";
+import { createRequire } from "module";
 import { resolve } from "path";
 
 const PARTIALS_DIR = resolve(__dirname, "src/partials");
@@ -43,6 +44,10 @@ const OG_IMAGE = {
    /index.html → /, /research.html → /research */
 const pageUrl = (path: string) => SITE_URL + path.replace(/(index)?\.html$/, "");
 
+/* Pages marked <meta name="robots" content="noindex"> (the 404 page) get no
+   canonical or link-preview tags and stay out of the sitemap. */
+const NOINDEX_RE = /<meta\s+name="robots"\s+content="[^"]*\bnoindex\b/;
+
 /* Link-preview tags (Open Graph, Twitter card, canonical), derived from each
    page's own <title> and meta description so those stay the single source. */
 function socialMeta(): Plugin {
@@ -55,6 +60,7 @@ function socialMeta(): Plugin {
             if (!title || !desc) {
                 throw new Error(`social-meta: ${ctx.path}: needs a <title> and a meta description`);
             }
+            if (NOINDEX_RE.test(html)) return html;
             const url = pageUrl(ctx.path);
             const tags = [
                 `<link rel="canonical" href="${url}" />`,
@@ -85,9 +91,10 @@ function crawlerFiles(): Plugin {
         apply: "build",
         enforce: "post", // the HTML pages only join the bundle in Vite's own generateBundle
         generateBundle(_, bundle) {
-            const urls = Object.keys(bundle)
-                .filter((f) => f.endsWith(".html"))
-                .map((f) => pageUrl(`/${f}`))
+            const urls = Object.values(bundle)
+                .filter((f) => f.type === "asset" && f.fileName.endsWith(".html"))
+                .filter((f) => !NOINDEX_RE.test(String((f as { source: string | Uint8Array }).source)))
+                .map((f) => pageUrl(`/${f.fileName}`))
                 .sort();
             this.emitFile({
                 type: "asset",
@@ -109,10 +116,32 @@ function crawlerFiles(): Plugin {
     };
 }
 
+/* <meta name="theme-color"> for the browser chrome (mobile address bar, PWA
+   title bar), one per colour scheme. Matches the mobile top bar (bg-rail), read
+   from the theme package so a token release cannot leave it stale. */
+function themeColor(): Plugin {
+    const css = readFileSync(createRequire(import.meta.url).resolve("@dk949/site-theme/theme.css"), "utf8");
+    const darkAt = css.indexOf("prefers-color-scheme: dark");
+    const RAIL_RE = /--color-bg-rail:\s*(#[0-9a-fA-F]{3,8})\s*;/;
+    const light = darkAt < 0 ? undefined : RAIL_RE.exec(css.slice(0, darkAt))?.[1];
+    const dark = darkAt < 0 ? undefined : RAIL_RE.exec(css.slice(darkAt))?.[1];
+    if (!light || !dark) {
+        throw new Error("theme-color: cannot find --color-bg-rail (light and dark) in @dk949/site-theme/theme.css");
+    }
+    const tags = [
+        `<meta name="theme-color" media="(prefers-color-scheme: light)" content="${light}" />`,
+        `<meta name="theme-color" media="(prefers-color-scheme: dark)" content="${dark}" />`,
+    ];
+    return {
+        name: "theme-color",
+        transformIndexHtml: (html) => html.replace("</head>", `  ${tags.join("\n  ")}\n</head>`),
+    };
+}
+
 export default defineConfig({
     /* themeFavicon serves and emits the favicon and apple-touch-icon that
        ship with the theme package, so this site and the business card cannot drift apart. */
-    plugins: [htmlPartials(), socialMeta(), crawlerFiles(), tailwindcss(), themeFavicon()],
+    plugins: [htmlPartials(), socialMeta(), themeColor(), crawlerFiles(), tailwindcss(), themeFavicon()],
     build: {
         rollupOptions: {
             input: {
@@ -120,6 +149,7 @@ export default defineConfig({
                 research: resolve(__dirname, "research.html"),
                 activity: resolve(__dirname, "activity.html"),
                 projects: resolve(__dirname, "projects.html"),
+                notfound: resolve(__dirname, "404.html"), // Vercel serves it for any missing path
             },
         },
     },

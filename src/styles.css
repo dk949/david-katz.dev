@@ -683,6 +683,18 @@
         text-decoration: none;
     }
 
+    /* --- 404 page: compiler-style diagnostic line --- */
+    .diagnostic {
+        @apply font-mono text-fg bg-bg-elev border border-divider m-0 mb-6 p-4 overflow-x-auto;
+        font-size: 0.85rem;
+        border-radius: 10px;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+    }
+
+    .diagnostic-loc { @apply text-muted; }
+    .diagnostic-sev { @apply text-accent font-semibold; }
+
     /* --- Page section intro paragraph --- */
     .page-section-intro {
         @apply text-fg-dim m-0 mb-6;

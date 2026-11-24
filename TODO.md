@@ -72,4 +72,4 @@
       "structure in HTML, behavior in TS". Low priority
         + This is more trouble than it's worth
     * [X] Verify in Google Search Console, submit sitemap (manual)
-    * [ ] Minor: custom `404.html`, `theme-color` meta
+    * [x] Minor: custom `404.html`, `theme-color` meta
