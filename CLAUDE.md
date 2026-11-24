@@ -28,7 +28,7 @@ This file is the single source of truth for project intent and conventions.
 | Command            | Purpose                                                      |
 | ------------------ | ------------------------------------------------------------ |
 | `npm run dev`      | Vite dev server                                              |
-| `npm run build`    | Runs `prebuild` (GitHub fetch) then `vite build`             |
+| `npm run build`    | Runs `prebuild` (GitHub fetch), then typecheck + `vite build` |
 | `npm run preview`  | Preview built site                                           |
 | `npm run typecheck`| `tsc --noEmit`                                               |
 
