@@ -1,6 +1,6 @@
 # david-katz.dev
 
-Personal homepage / digital business card for David Katz — PhD researcher in HPC, compilers, LLVM/MLIR. Multi-page static site hosted on GitHub Pages at **david-katz.dev** (HTTPS).
+Personal homepage / digital business card for David Katz — PhD researcher in HPC, compilers, LLVM/MLIR. Multi-page static site hosted on Vercel at **david-katz.dev** (HTTPS).
 
 This file is the single source of truth for project intent and conventions.
 
@@ -11,7 +11,7 @@ This file is the single source of truth for project intent and conventions.
 - **Activity page.** GitHub visualiser (OSS contributions, language breakdown, etc.). Lives off the landing page on purpose — it's a "nice to have", not the headline.
 - **Contact.** Email `dk949.david@gmail.com`, GitHub `@dk949`, LinkedIn `https://www.linkedin.com/in/dk949/`. The email is also hard-coded in `src/pages/home.ts` for the copy-to-clipboard button — update both places if it changes.
 - **Frameworks.** Intentionally avoided. Justify any added dependency by the weight it adds to the bundle.
-- **Sibling repos.** `../business-card` is the digital business card at **hi.david-katz.dev** (separate repo only because GitHub Pages allows one custom domain per repo; it links back here). `../site-theme` holds the design tokens both sites use. A palette change touches all three.
+- **Sibling repos.** `../buisness-card` is the digital business card at **hi.david-katz.dev** (separate repo and deployment; it links back here). `../site-theme` holds the design tokens both sites use. A palette change touches all three.
 
 ## Stack
 
@@ -48,7 +48,7 @@ src/
   partials/{nav,footer}.html  ← HTML fragments included via `<!-- @include name -->`
 data/site.yml             ← single source of truth for build-time data: ignore lists, contribution pins, projects, publications
 scripts/fetch-github.ts   ← prebuild: hits GitHub API, writes generated/github.json
-public/                   ← static assets served at site root (CNAME, avatar; the favicon comes from @dk949/site-theme)
+public/                   ← static assets served at site root (avatar; the favicon comes from @dk949/site-theme)
 ```
 
 ## Conventions
@@ -93,7 +93,7 @@ Tailwind 4 resolves `@import` out of `node_modules`, so the `@theme` block behav
 2. **Language breakdown** — top `languages.limit` (default 8) languages across `dk949`'s public repos by repo size, minus `ignore.languages`, plus an "Other" bucket.
 3. **Projects + publications** — passed through verbatim from `data/site.yml`.
 
-Output: `src/generated/github.json` (gitignored — regenerated each prebuild). On API failure, prebuild falls back to the cached JSON; build only fails if no cache exists.
+Output: `src/generated/github.json` (gitignored — regenerated each prebuild). On API failure, prebuild falls back to the cached JSON; build only fails if no cache exists. Vercel builds start from a clean clone, so there is never a cache there: an API failure fails that deploy and the previous one stays live.
 
 `data/site.yml` is the single config surface — ignore lists, pinned slugs, limits, projects, and publications all live there. Re-run `npm run prebuild` after editing.
 
@@ -101,6 +101,8 @@ Output: `src/generated/github.json` (gitignored — regenerated each prebuild). 
 
 ## Hosting
 
-GitHub Pages, served from the built `dist/` output. HTTPS required. No server runtime — all dynamic data is baked at build time, so the deploy is a static asset upload.
+Vercel, via its Git integration: every push to `trunk` runs `npm run build` (prebuild → typecheck → `vite build`) and serves `dist/`. HTTPS required (`.dev` is HSTS-preloaded); Vercel manages the certificate. No server runtime — all dynamic data is baked at build time, so the deploy is a static asset upload. Node version comes from `engines` in `package.json` (Vercel ignores `.nvmrc`).
 
-`GITHUB_TOKEN` should be wired into the Pages build (e.g. via `${{ secrets.GITHUB_TOKEN }}` in the workflow) so `prebuild` hits the authenticated API rate limit.
+`GITHUB_TOKEN` is a Vercel project environment variable holding a fine-grained PAT (public read only) so `prebuild` gets the authenticated rate limit — Vercel's build IPs are shared, so the unauthenticated 60/hr is not enough.
+
+`.github/workflows/deploy.yml` only rebuilds on a schedule (1st and 15th) so the activity data stays fresh: it POSTs to a Vercel deploy hook stored in the `VERCEL_DEPLOY_HOOK` repo secret. It can also be run manually (`workflow_dispatch`).
