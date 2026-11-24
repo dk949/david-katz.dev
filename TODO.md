@@ -45,8 +45,8 @@
 * [>] SEO
     * [x] Link previews: Open Graph + Twitter card tags, canonical URLs, and
       a 1200x630 `og:image` (source in `assets/og-image.svg`)
-    * [ ] `robots.txt` + `sitemap.xml` (generate the sitemap from the page
-      list in `vite.config.ts`)
+    * [x] `robots.txt` + `sitemap.xml` (generated on build from the bundled
+      pages)
     * [x] Clean URLs: `cleanUrls: true` in `vercel.json`, drop `.html` from
       nav links and from the canonical/`og:url` the `socialMeta` plugin emits
     * [ ] JSON-LD `Person` on the home page (name, url, jobTitle,

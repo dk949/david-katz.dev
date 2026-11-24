@@ -39,6 +39,10 @@ const OG_IMAGE = {
     alt: "David Katz - PhD researcher in HPC, compilers, and LLVM/MLIR",
 };
 
+/* Public URL of an HTML page, matching Vercel's cleanUrls (vercel.json):
+   /index.html → /, /research.html → /research */
+const pageUrl = (path: string) => SITE_URL + path.replace(/(index)?\.html$/, "");
+
 /* Link-preview tags (Open Graph, Twitter card, canonical), derived from each
    page's own <title> and meta description so those stay the single source. */
 function socialMeta(): Plugin {
@@ -51,9 +55,7 @@ function socialMeta(): Plugin {
             if (!title || !desc) {
                 throw new Error(`social-meta: ${ctx.path}: needs a <title> and a meta description`);
             }
-            /* Matches Vercel's cleanUrls (vercel.json): /research.html → /research */
-            const page = ctx.path.replace(/(index)?\.html$/, "");
-            const url = SITE_URL + page;
+            const url = pageUrl(ctx.path);
             const tags = [
                 `<link rel="canonical" href="${url}" />`,
                 `<meta property="og:type" content="website" />`,
@@ -73,10 +75,44 @@ function socialMeta(): Plugin {
     };
 }
 
+/* robots.txt and sitemap.xml, emitted on build. The sitemap lists every HTML
+   page in the bundle, so a new entry in rollupOptions.input lands there too.
+   No <lastmod>: there is no per-page date worth trusting (Vercel builds from a
+   shallow clone, and the activity page changes on every scheduled rebuild). */
+function crawlerFiles(): Plugin {
+    return {
+        name: "crawler-files",
+        apply: "build",
+        enforce: "post", // the HTML pages only join the bundle in Vite's own generateBundle
+        generateBundle(_, bundle) {
+            const urls = Object.keys(bundle)
+                .filter((f) => f.endsWith(".html"))
+                .map((f) => pageUrl(`/${f}`))
+                .sort();
+            this.emitFile({
+                type: "asset",
+                fileName: "sitemap.xml",
+                source: [
+                    `<?xml version="1.0" encoding="UTF-8"?>`,
+                    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+                    ...urls.map((u) => `  <url><loc>${u}</loc></url>`),
+                    `</urlset>`,
+                    ``,
+                ].join("\n"),
+            });
+            this.emitFile({
+                type: "asset",
+                fileName: "robots.txt",
+                source: `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`,
+            });
+        },
+    };
+}
+
 export default defineConfig({
     /* themeFavicon serves and emits the favicon that ships with the theme
        package, so this site and the business card cannot drift apart. */
-    plugins: [htmlPartials(), socialMeta(), tailwindcss(), themeFavicon()],
+    plugins: [htmlPartials(), socialMeta(), crawlerFiles(), tailwindcss(), themeFavicon()],
     build: {
         rollupOptions: {
             input: {

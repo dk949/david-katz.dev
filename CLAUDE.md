@@ -55,7 +55,7 @@ assets/og-image.svg       ← source for public/og-image.png (export steps in th
 ## Conventions
 
 - **Structure in HTML, behavior in TS.** Don't render full markup from TS — wire up listeners and inject only dynamic content (see `pages/activity.ts` for the accepted pattern).
-- **Link previews.** The `socialMeta` plugin in `vite.config.ts` derives Open Graph/Twitter tags and the canonical URL from each page's `<title>` and meta description, and fails the build if either is missing. Edit those two, not the og tags. A new page gets previews for free.
+- **Link previews.** The `socialMeta` plugin in `vite.config.ts` derives Open Graph/Twitter tags and the canonical URL from each page's `<title>` and meta description, and fails the build if either is missing. Edit those two, not the og tags. A new page gets previews for free. The `crawlerFiles` plugin likewise emits `robots.txt` and `sitemap.xml` on build (no copies in `public/`), listing every bundled HTML page under its clean URL.
 - **Shared HTML via partials.** Markup duplicated across pages (nav, footer) lives in `src/partials/*.html` and is inlined at build time via the `htmlPartials` Vite plugin (`<!-- @include name -->`). Edit the partial, not the per-page copy.
 - **Indentation: 2 spaces (HTML) 4 spaces (everything else)** (`.editorconfig`). LF line endings, final newline.
 - **Strict TS.** `noUncheckedIndexedAccess` is on — destructure with explicit non-null assertions where the shape is guaranteed (`const [owner] = slug.split("/") as [string, string]`).
